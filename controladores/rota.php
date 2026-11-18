@@ -5,22 +5,27 @@
     $acao = $_GET['acao'];
     switch ($acao) {
         case 'salvarProduto':
-            $produtoDTO = new ProdutoDTO();
-            $produtoDTO->nome = $_POST['nome'];
-            $produtoDTO->foto = $_FILES['foto'];
-            $produtoDTO->quantidade = $_POST['quantidade'];
-            $produtoDTO->preco = $_POST['preco'];
-            $produtoControlador = new produtoControlador();
-            try {
-                $produtoControlador->salvar($produtoDTO);
-            }catch(PDOException $erro) {
-                echo "Erro na base de dados " . $erro->getMessage();
-            }
-            catch(Exception $erro) {
-                echo "Erro inesperado";
-            }
-            header("Location:../telas/cadastrarProduto.html");
-            break;
+        $produtoDTO = new ProdutoDTO();
+        $produtoDTO->nome = $_POST['nome'] ?? '';
+        $produtoDTO->quantidade = $_POST['quantidade'] ?? 0;
+        $produtoDTO->preco = $_POST['preco'] ?? 0.0;
+        
+        // Passa o arquivo $_FILES['foto'] inteiro para o DTO
+        $produtoDTO->foto = $_FILES['foto'] ?? null;
+
+        $produtoControlador = new produtoControlador();
+        try {
+            $produtoControlador->salvar($produtoDTO);
+        } catch(PDOException $erro) {
+            echo "Erro na base de dados " . $erro->getMessage();
+            exit;
+        } catch(Exception $erro) {
+            echo "Erro inesperado: " . $erro->getMessage();
+            exit;
+        }
+        
+        header("Location: ../telas/cadastrarProduto.html");
+        break;
         case 'buscarProduto':
             $produtoControlador = new produtoControlador();
             try {
@@ -71,5 +76,6 @@
             catch(Exception $erro) {
                 echo "Erro inesperado";
             }
+        
     }
 ?>
