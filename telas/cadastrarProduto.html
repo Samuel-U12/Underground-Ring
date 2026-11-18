@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <form action="../controladores/rota.php?acao=salvarProduto" method="POST" enctype="multipart/form-data">
+        <label>Foto:</label>
+        <input type="file" id="foto" name="foto" accept="image/*">
+        <br>
+        <label>Nome:</label>
+        <input type="text" name="nome"><br>
+        <label>Quantidade:</label>
+        <input type="text" name="quantidade"><br>
+        <label>Preço:</label>
+        <input type="text" name="preco"><br>
+        <button>Salvar</button>
+    </form>
+    <br><br>
+    <button><a href='../index.html'>Pagina Inicial</a></button>
+</body>
+</html>

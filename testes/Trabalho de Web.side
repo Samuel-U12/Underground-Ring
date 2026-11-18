@@ -1,0 +1,188 @@
+{
+  "id": "fdba9dc9-296d-4897-bf65-2a57691bb85c",
+  "version": "2.0",
+  "name": "Trabalho de Web",
+  "url": "http://localhost/atividade%20de%20web/atividade/",
+  "tests": [{
+    "id": "9f7a2ead-8b1d-4e05-be02-887851a0179a",
+    "name": "VerProdutos",
+    "commands": [{
+      "id": "2d90764b-2ff8-4444-a7fb-620b0aa89e23",
+      "comment": "",
+      "command": "open",
+      "target": "/atividade%20de%20web/atividade/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "36568a21-cbcb-4a1f-9ac2-c91109e5d8da",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1012",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "811df248-2bb6-44d6-ae3c-253cabfb6eb8",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(4) > a",
+      "targets": [
+        ["css=button:nth-child(4) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Ver produtos')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'controladores/rota.php?acao=buscarProduto')]", "xpath:href"],
+        ["xpath=//button[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "1ede6f6d-69f5-4d03-beea-8942c13aa36a",
+    "name": "Excluir",
+    "commands": [{
+      "id": "84467aba-bba7-4c48-a17a-7c92ccaea9af",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost/atividade%20de%20web/atividade/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cbfae740-b694-409c-9c61-975124cf5e93",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1012",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "25cdd912-d7e1-432e-90da-4bfa60e465de",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(4) > a",
+      "targets": [
+        ["css=button:nth-child(4) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Ver produtos')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'controladores/rota.php?acao=buscarProduto')]", "xpath:href"],
+        ["xpath=//button[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9f26a628-bf14-4975-9d67-52c495f8f71e",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(3) > td:nth-child(5) > a",
+      "targets": [
+        ["css=tr:nth-child(3) > td:nth-child(5) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Excluir')])[2]", "xpath:link"],
+        ["xpath=//a[contains(@href, '../controladores/rota.php?acao=excluirProduto&id=34')]", "xpath:href"],
+        ["xpath=//tr[3]/td[5]/a", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "dbf7e9ea-2d93-4b57-a60c-ef9c17806f97",
+    "name": "Alterar",
+    "commands": [{
+      "id": "5ea9eb71-ba00-4f47-8427-60ebc2b25ce7",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost/atividade%20de%20web/atividade/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3ae619c3-21d3-4fca-a763-3f5a6fa2d94d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1012",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "353bd0d0-e9d0-40f7-a413-45baae0a636d",
+      "comment": "",
+      "command": "click",
+      "target": "css=button:nth-child(4) > a",
+      "targets": [
+        ["css=button:nth-child(4) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Ver produtos')]", "xpath:link"],
+        ["xpath=//a[contains(@href, 'controladores/rota.php?acao=buscarProduto')]", "xpath:href"],
+        ["xpath=//button[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4d57e896-cac3-48bb-b9a3-f000f0526d5f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Alterar",
+      "targets": [
+        ["linkText=Alterar", "linkText"],
+        ["css=tr:nth-child(2) > td:nth-child(6) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Alterar')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '../controladores/rota.php?acao=buscarProdutoPorId&id=33')]", "xpath:href"],
+        ["xpath=//td[6]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Alterar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "94c3e5e7-991c-432e-a621-9490389e102b",
+      "comment": "",
+      "command": "click",
+      "target": "name=quantidade",
+      "targets": [
+        ["name=quantidade", "name"],
+        ["css=input:nth-child(6)", "css:finder"],
+        ["xpath=//input[@name='quantidade']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a72d18c-f0ad-4157-9a76-f11f37b67b6b",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantidade",
+      "targets": [
+        ["name=quantidade", "name"],
+        ["css=input:nth-child(6)", "css:finder"],
+        ["xpath=//input[@name='quantidade']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "19732321"
+    }, {
+      "id": "4f9e0a6e-2b1d-48a0-9f0c-46f6cc3383cf",
+      "comment": "",
+      "command": "click",
+      "target": "css=button",
+      "targets": [
+        ["css=button", "css:finder"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9aa89047-9df5-4b57-80de-be7f73588ecf",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2)",
+      "targets": [
+        ["css=tr:nth-child(2)", "css:finder"],
+        ["xpath=//tr[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b224a7c4-2b41-41e6-ba24-d82382c5852d",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) > td:nth-child(3)",
+      "targets": [
+        ["css=tr:nth-child(2) > td:nth-child(3)", "css:finder"],
+        ["xpath=//td[3]", "xpath:position"],
+        ["xpath=//td[contains(.,'19732321')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "8d86959d-d4ac-49ed-be78-09bfdc87db75",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["9f7a2ead-8b1d-4e05-be02-887851a0179a"]
+  }],
+  "urls": ["http://localhost/"],
+  "plugins": []
+}
