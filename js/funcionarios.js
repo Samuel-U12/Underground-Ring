@@ -41,7 +41,7 @@ async function autenticar() {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
     
-    const autenticarUsusario = {
+    const autenticarUsuario = {
         nome:nome,
         senha:senha
     }
@@ -52,7 +52,7 @@ async function autenticar() {
             headers:{
                 "Content-Type": "application/json"
             },
-            body:JSON.stringify(cliente)
+            body:JSON.stringify(funcionario)
         });
         const dados = await resposta.json();
        
