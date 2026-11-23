@@ -26,6 +26,9 @@ async function salvarCliente() {
             }
         );
 
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
+
         const dados = JSON.parse(textoResposta);
 
         if (resposta.ok) {
@@ -67,6 +70,9 @@ async function autenticar() {
                 body: JSON.stringify(autenticarCliente)
             }
         );
+
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
 
         const dados = JSON.parse(textoResposta);
 

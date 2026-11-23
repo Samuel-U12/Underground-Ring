@@ -120,8 +120,8 @@ switch ($acao) {
         $dados = json_decode(file_get_contents("php://input"));
 
         $clienteDTO = new ClienteDTO();
-        $clienteDTO->email = $dados->email ?? '';
-        $clienteDTO->senha = $dados->senha ?? '';
+        $clienteDTO->email = $dados->email;
+        $clienteDTO->senha = $dados->senha;
 
         $clienteControlador = new ClienteControlador();
 
