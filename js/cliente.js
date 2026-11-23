@@ -48,6 +48,7 @@ async function salvarCliente() {
         mensagem.style.color = "red";
     }*/
 }
+}
 
 async function autenticar() {
     const email = document.getElementById("email").value;
