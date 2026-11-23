@@ -1,4 +1,4 @@
-async function SalvarCliente() {
+async function salvarCliente() {
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
@@ -44,7 +44,7 @@ async function autenticar() {
     const senha = document.getElementById("senha").value;
     
     const autenticarCliente = {
-        nome:nome,
+        email:email,
         senha:senha
     }
     try{
@@ -54,7 +54,7 @@ async function autenticar() {
             headers:{
                 "Content-Type": "application/json"
             },
-            body:JSON.stringify(cliente)
+            body:JSON.stringify(autenticarCliente)
         });
         const dados = await resposta.json();
        

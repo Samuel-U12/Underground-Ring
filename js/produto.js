@@ -32,7 +32,7 @@ async function AlterarProduto() {
     }
     try{
         const resposta = await fetch(
-        "http://localhost/agenda/controladores/rota.php?acao=autenticarProduto",{
+        "http://localhost/agenda/controladores/rota.php?acao=alterarProduto",{
             method: "POST",
             headers:{
                 "Content-Type": "application/json"

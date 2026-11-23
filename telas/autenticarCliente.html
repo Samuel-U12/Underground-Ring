@@ -6,10 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="../controladores/rota.php?acao=autenticar" method="POST">
+    <form action="../controladores/rota.php?acao=autenticarCliente" method="POST">
         Email:<input type="text" name="email">
         Senha:<input type="password" name="senha">
-        <button>Autenticar</button>
+        <button onclick="autenticar()">Autenticar</button>
     </form>    
+    <spam id="mensagem"></spam>    
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+    <script src="../js/cliente.js"></script>
 </html>

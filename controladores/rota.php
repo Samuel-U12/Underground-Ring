@@ -1,6 +1,10 @@
 <?php
     require_once "../DTOs/ProdutoDTO.php";
     require_once "ProdutoControlador.php";
+    require_once "../DTOs/FuncionarioDTO.php";
+    require_once "FuncionarioControlador.php";
+    require_once "../DTOs/ClienteDTO.php";
+    require_once "ClienteControlador.php";
 
     $acao = $_GET['acao'];
     switch ($acao) {
@@ -76,6 +80,137 @@
             catch(Exception $erro) {
                 echo "Erro inesperado";
             }
-        
+            break;
+        case 'salvarCliente':
+            $dados = json_decode(
+                file_get_contents("php://input"));
+
+            $clienteDTO = new clienteDTO;
+            $clienteDTO->nome = $dados->nome;
+            $clienteDTO->email = $dados->email;
+            $clienteDTO->senha = $dados->senha;
+            $clienteDTO->endereco = $dados->endereco;
+            try{
+                $clienteControlador->salvarCliente($clienteDTO);
+                http_response_code(201);
+                echo json_encode(
+                    [
+                        'sucesso' => true,
+                        'mensagem' => 'Cliente cadastrado com sucesso'
+                    ]
+                );
+            } catch(PDOException $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }catch(Exception $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }
+            break;
+            case 'autenticarCliente':
+                $dados = json_decode(
+                file_get_contents("php://input"));
+
+            $clienteDTO = new clienteDTO;
+            $clienteDTO->email = $dados->email;
+            $clienteDTO->senha = $dados->senha;
+            try{
+                $cliente = $clienteControlador->autenticarCliente($clienteDTO);
+                session_start();
+                $_SESSION['cliente'] = $cliente;
+                header("Location:../telas/homeC.php");
+            } catch(PDOException $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }catch(Exception $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }
+            break;
+        case 'salvarFuncionario':
+            $dados = json_decode(
+                file_get_contents("php://input"));
+
+            $funcionarioDTO = new clienteDTO;
+            $funcionarioDTO->nome = $dados->nome;
+            $funcionarioDTO->email = $dados->email;
+            $funcionarioDTO->senha = $dados->senha;
+            try{
+                $funcionario = $funcionarioControlador->salvarFuncionario($funcionarioDTO);
+                http_response_code(201);
+                echo json_encode(
+                    [
+                        'sucesso' => true,
+                        'mensagem' => 'Funcionario cadastrado com sucesso'
+                    ]
+                );
+            } catch(PDOException $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }catch(Exception $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }
+            break;
+        case 'autenticarFuncionario'
+            $dados = json_decode(
+                file_get_contents("php://input"));
+
+            $funcionarioDTO = new clienteDTO;
+            $funcionarioDTO->email = $dados->email;
+            $funcionarioDTO->senha = $dados->senha;
+            try{
+                $funcionario = $funcionarioControlador->autenticarFuncionario($funcionarioDTO);
+                session_start();
+                $_SESSION['funcionario'] = $funcionario;
+                header("Location:../telas/homeF.php");
+            } catch(PDOException $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }catch(Exception $erro){
+                http_response_code(400);
+                echo json_encode(
+                    [
+                        'sucesso' => false,
+                        'mensagem' => $erro->getMessage()
+                    ]
+                );
+            }
+            break;
     }
 ?>
