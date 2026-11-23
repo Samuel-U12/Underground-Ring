@@ -2,8 +2,8 @@
 <?php
 
 class FuncionarioDTO{
-    private $nome;
-    private $email;
-    private $senha;
+    public $nome;
+    public $email;
+    public $senha;
 
 }

@@ -2,8 +2,8 @@
 <?php
 
 class ClienteDTO{
-    private $nome;
-    private $email;
-    private $senha;
-    private $endereco;
+    public $nome;
+    public $email;
+    public $senha;
+    public $endereco;
 }

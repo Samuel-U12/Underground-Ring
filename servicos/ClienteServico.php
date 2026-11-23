@@ -1,7 +1,7 @@
 <?php
     require_once "../DAOs/ClienteDAO.php";
     require_once "../conexao/Conexao.php";
-    class clienteServico{
+    class ClienteServico{
 
         public function salvar($cliente){
             try{

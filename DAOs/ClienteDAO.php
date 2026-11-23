@@ -26,7 +26,6 @@
             $stmt->bindValue(1,$cliente->getEmail());
             $stmt->execute();
             $clienteBase = $stmt->fetch(PDO::FETCH_OBJ);
-            var_dump($clienteBase);
             if($clienteBase){
                 //converter esse objeto para o modelo
                 $clienteModelo = new cliente();

@@ -91,6 +91,7 @@
             $clienteDTO->senha = $dados->senha;
             $clienteDTO->endereco = $dados->endereco;
             try{
+                $clienteControlador = new ClienteControlador()
                 $clienteControlador->salvarCliente($clienteDTO);
                 http_response_code(201);
                 echo json_encode(
@@ -182,7 +183,7 @@
                 );
             }
             break;
-        case 'autenticarFuncionario'
+        case 'autenticarFuncionario':
             $dados = json_decode(
                 file_get_contents("php://input"));
 

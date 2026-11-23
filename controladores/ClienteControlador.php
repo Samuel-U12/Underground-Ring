@@ -2,12 +2,13 @@
     require_once "../DTOs/clienteDTO.php";
     require_once "../modelos/cliente.php";
     require_once "../servicos/clienteServico.php";
-    class clienteServico{
+    class ClienteControlador{
         public function salvarCliente($clienteDTO){
             $cliente = new Cliente();
             $cliente->setNome($clienteDTO->nome);
             $cliente->setEmail($clienteDTO->email);
             $cliente->setSenha($clienteDTO->senha);
+            $cliente->setEndereco($clienteDTO->endereco)
 
             $clienteServico = new clienteServico();
             try{

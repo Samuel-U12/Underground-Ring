@@ -2,7 +2,7 @@
     require_once "../DTOs/FuncionarioDTO.php";
     require_once "../modelos/Funcionario.php";
     require_once "../servicos/FuncionarioServico.php";
-    class FuncionarioServico{
+    class FuncionarioControlador{
         public function salvarFuncionario($funcionarioDTO){
             $funcionario = new Funcionario();
             $funcionario->setNome($funcionarioDTO->nome);
