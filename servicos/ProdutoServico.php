@@ -48,7 +48,6 @@
         public function alterar($produto){
             $conn = Conexao::criar();
             $produtoDAO = new ProdutoDAO();
-            var_dump($produto);
             $produtoDAO->alterar($produto, $conn);
         }
     }

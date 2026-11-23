@@ -21,7 +21,6 @@
         }
 
         public function excluir($id,$conn){
-
             $sql = "DELETE FROM Produtos WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(1,$id); 
@@ -70,7 +69,6 @@
             $stmt->bindParam(2,$produto->getQuantidade());
             $stmt->bindParam(3,$produto->getPreco());
             $stmt->bindParam(4,$produto->getId());
-            var_dump($stmt->rowCount(), $produto->getId());
             $stmt->execute();
         }
     }

@@ -35,6 +35,22 @@
                 throw $erro;
             }
         }
+        public function excluir($cliente){
+            try{
+                $conn = Conexao::criar();
+                $clienteDAO = new clienteDAO();
+                $clienteDAO->excluir($cliente,$conn);
+            }catch(PDOException $erro) {
+                    throw $erro;
+            }catch(Exception $erro) {
+                throw $erro;
+            }
+        }
+        public function alterar($cliente, $conn){
+            $conn = Conexao::criar();
+            $clienteDAO = new clienteDAO();
+            $clienteDAO->alterar($cliente, $conn);
+        }
     }
 
 ?>
