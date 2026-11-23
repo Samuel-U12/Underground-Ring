@@ -16,7 +16,7 @@ async function salvarCliente() {
 
     try {
         const resposta = await fetch(
-            "http://localhost/agenda/controladores/rota.php?acao=salvarCliente",
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=salvarCliente",
             {
                 method: "POST",
                 headers: {
@@ -30,8 +30,6 @@ async function salvarCliente() {
         console.log("Resposta bruta do PHP:", textoResposta);
 
         const dados = JSON.parse(textoResposta);
-
-        const dados = await resposta.json();
 
         if (resposta.ok) {
             Swal.fire({
@@ -49,7 +47,6 @@ async function salvarCliente() {
     }
 }
 
-
 async function autenticar() {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
@@ -64,7 +61,7 @@ async function autenticar() {
 
     try {
         const resposta = await fetch(
-            "http://localhost/agenda/controladores/rota.php?acao=autenticarCliente",
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=autenticarCliente",
             {
                 method: "POST",
                 headers: {
@@ -74,7 +71,10 @@ async function autenticar() {
             }
         );
 
-        const dados = await resposta.json();
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
+
+        const dados = JSON.parse(textoResposta);
 
         if (resposta.ok) {
             Swal.fire({
