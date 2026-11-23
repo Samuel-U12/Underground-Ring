@@ -25,7 +25,6 @@
             $stmt->bindValue(1,$funcionario->getEmail());
             $stmt->execute();
             $funcionarioBase = $stmt->fetch(PDO::FETCH_OBJ);
-            var_dump($funcionarioBase);
             if($funcionarioBase){
                 //converter esse objeto para o modelo
                 $funcionarioModelo = new funcionario();
