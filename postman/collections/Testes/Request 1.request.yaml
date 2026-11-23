@@ -1,0 +1,20 @@
+$kind: http-request
+description: ""
+url: http://localhost/Underground-Ring/controladores/rota.php?acao=salvarCliente
+method: POST
+queryParams:
+  acao: salvarCliente
+body:
+  type: json
+  content: "const cliente = {\r
+
+    \    nome: nome,\r
+
+    \    email: email,\r
+
+    \    senha: senha,\r
+
+    \    endereco: endereco\r
+
+    };"
+order: 1000
