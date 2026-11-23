@@ -17,7 +17,10 @@ async function salvarFuncionario() {
             },
             body:JSON.stringify(funcionario)
         });
-        const dados = await resposta.json();
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
+
+        const dados = JSON.parse(textoResposta);
        
         if(resposta.ok){
             Swal.fire(
@@ -54,7 +57,10 @@ async function autenticar() {
             },
             body:JSON.stringify(funcionario)
         });
-        const dados = await resposta.json();
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
+
+        const dados = JSON.parse(textoResposta);
        
         if(resposta.ok){
             Swal.fire(
