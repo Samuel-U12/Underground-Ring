@@ -1,7 +1,7 @@
 
 <?php
 
-require_once __DIR__ . '/../DTO/ClienteDTO.php';
+require_once __DIR__ . '/../DTOs/ClienteDTO.php';
 
 class Cliente
 {
