@@ -26,7 +26,12 @@ async function salvarCliente() {
             }
         );
 
-        const dados = await resposta.json();
+        const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
+
+        const dados = JSON.parse(textoResposta);
+
+        /*const dados = await resposta.json();
 
         if (resposta.ok) {
             Swal.fire({
@@ -41,7 +46,7 @@ async function salvarCliente() {
     } catch (erro) {
         mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
         mensagem.style.color = "red";
-    }
+    }*/
 }
 
 async function autenticar() {
