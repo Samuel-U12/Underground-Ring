@@ -10,7 +10,7 @@ async function salvarFuncionario() {
     }
     try{
         const resposta = await fetch(
-        "http://localhost/agenda/controladores/rota.php?acao=salvarFuncionario",{
+        "http://localhost/Underground-Ring/controladores/rota.php?acao=salvarFuncionario",{
             method: "POST",
             headers:{
                 "Content-Type": "application/json"
@@ -47,7 +47,7 @@ async function autenticar() {
     }
     try{
         const resposta = await fetch(
-        "http://localhost/agenda/controladores/rota.php?acao=autenticarFuncionario",{
+        "http://localhost/Underground-Ring/controladores/rota.php?acao=autenticarFuncionario",{
             method: "POST",
             headers:{
                 "Content-Type": "application/json"
