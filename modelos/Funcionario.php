@@ -1,7 +1,6 @@
-
 <?php
 
-require_once __DIR__ . '/../DTO/FuncionarioDTO.php';
+require_once __DIR__ . '/../DTOs/FuncionarioDTO.php';
 
 class Funcionario
 {
@@ -15,7 +14,7 @@ class Funcionario
     }
 
     public function setId($id){
-        $this->id = $id
+        $this->id = $id;
     }
 
     public function getNome(){
@@ -23,7 +22,7 @@ class Funcionario
     }
 
     public function setNome($nome){
-        $this->nome = $nome
+        $this->nome = $nome;
     }
 
     public function getEmail(){
@@ -31,7 +30,7 @@ class Funcionario
     }
 
     public function setEmail($email){
-        $this->email = $email
+        $this->email = $email;
     }
 
     public function getSenha(){
@@ -39,6 +38,6 @@ class Funcionario
     }
 
     public function setSenha($senha){
-        $this->senha = $senha
+        $this->senha = $senha;
     }
 }

@@ -8,7 +8,7 @@
             $cliente->setNome($clienteDTO->nome);
             $cliente->setEmail($clienteDTO->email);
             $cliente->setSenha($clienteDTO->senha);
-            $cliente->setEndereco($clienteDTO->endereco)
+            $cliente->setEndereco($clienteDTO->endereco);
 
             $clienteServico = new clienteServico();
             try{

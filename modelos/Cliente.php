@@ -16,7 +16,7 @@ class Cliente
     }
 
     public function setId($id){
-        $this->id = $id
+        $this->id = $id;
     }
 
     public function getNome(){
@@ -24,7 +24,7 @@ class Cliente
     }
 
     public function setNome($nome){
-        $this->nome = $nome
+        $this->nome = $nome;
     }
 
     public function getEmail(){
@@ -32,7 +32,7 @@ class Cliente
     }
 
     public function setEmail($email){
-        $this->email = $email
+        $this->email = $email;
     }
 
     public function getSenha(){
@@ -40,7 +40,7 @@ class Cliente
     }
 
     public function setSenha($senha){
-        $this->senha = $senha
+        $this->senha = $senha;
     }
 
     public function getEndereco(){
@@ -48,6 +48,6 @@ class Cliente
     }
 
     public function setendereco($endereco){
-        $this->endereco = $endereco
+        $this->endereco = $endereco;
     }
 }
