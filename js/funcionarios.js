@@ -1,4 +1,4 @@
-async function SalvarFuncionario() {
+async function salvarFuncionario() {
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
@@ -65,5 +65,8 @@ async function autenticar() {
                 }
             )
         }
+    }catch (erro) {
+        mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
+        mensagem.style.color = "red";
     }
 }
