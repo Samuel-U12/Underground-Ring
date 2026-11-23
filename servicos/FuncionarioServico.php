@@ -32,6 +32,22 @@
                 throw $erro;
             }
         }
+        public function excluir($funcionario){
+            try{
+                $conn = Conexao::criar();
+                $funcionarioDAO = new funcionarioDAO();
+                $funcionarioDAO->excluir($funcionario,$conn);
+            }catch(PDOException $erro) {
+                    throw $erro;
+            }catch(Exception $erro) {
+                throw $erro;
+            }
+        }
+        public function alterar($funcionario, $conn){
+            $conn = Conexao::criar();
+            $funcionarioDAO = new funcionarioDAO();
+            $funcionarioDAO->alterar($funcionario, $conn);
+        }
     }
 
 ?>

@@ -31,5 +31,11 @@
                 throw $erro;
             }
         }
+        public function alterarFuncionario($funcionarioDTO){
+            
+        }
+        public function excluirFuncionario($funcionarioDTO){
+
+        }
     }
 ?>

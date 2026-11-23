@@ -132,7 +132,70 @@ switch ($acao) {
             http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Autenticado com sucesso',
+                'mensagem' => 'Apagado com sucesso',
+                'redirecionar' => '/Underground-Ring/telas/homeC.php'
+            ]);
+        } catch (PDOException $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        } catch (Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        }
+        break;
+    case 'excluirCliente':
+        $dados = json_decode(file_get_contents("php://input"));
+
+        $clienteDTO = new ClienteDTO();
+        $clienteDTO->nome = $dados->nome ?? '';
+        $clienteDTO->email = $dados->email ?? '';
+        $clienteDTO->senha = $dados->senha ?? '';
+        $clienteDTO->endereco = $dados->endereco ?? '';
+
+        $clienteControlador = new ClienteControlador();
+
+        try {
+            $clienteControlador->alterarCliente($clienteDTO);
+            http_response_code(201);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Cliente alterado com sucesso'
+            ]);
+        } catch (PDOException $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        } catch (Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        }
+        break;
+    case 'buscarporid'
+    case 'alterarCliente':
+        $dados = json_decode(file_get_contents("php://input"));
+
+        $clienteDTO = new ClienteDTO();
+        $clienteDTO->email = $dados->email;
+
+        $clienteControlador = new ClienteControlador();
+
+        try {
+            $clienteControlador->excluirCliente($clienteDTO);
+            http_response_code(201);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Cliente cadastrado com sucesso'
                 'redirecionar' => '/Underground-Ring/telas/homeC.php'
             ]);
         } catch (PDOException $erro) {

@@ -46,6 +46,11 @@
                 throw $erro;
             }
         }
+        public function alterar($cliente, $conn){
+            $conn = Conexao::criar();
+            $clienteDAO = new clienteDAO();
+            $clienteDAO->alterar($cliente, $conn);
+        }
     }
 
 ?>

@@ -32,5 +32,34 @@
                 throw $erro;
             }
         }
+        public function alterarCliente($clienteDTO){
+            $cliente = new Cliente();
+            $cliente->setNome($clienteDTO->nome);
+            $cliente->setEmail($clienteDTO->email);
+            $cliente->setSenha($clienteDTO->senha);
+            $cliente->setEndereco($clienteDTO->endereco);
+
+            $clienteServico = new clienteServico();
+            try{
+                $clienteServico->alterar($cliente);
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
+        }
+        public function excluirCliente($clienteDTO){
+            $cliente = new Cliente();
+            $cliente->setEmail($clienteDTO->email);
+            
+            $clienteServico = new clienteServico();
+            try{
+                $clienteServico->excluir($cliente);
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
+        }
     }
 ?>
