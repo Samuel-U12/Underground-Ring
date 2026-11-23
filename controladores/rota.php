@@ -189,12 +189,6 @@ switch ($acao) {
         try {
             $clienteAlterar = $clienteControlador->buscarPeloId($cliente->getId());
             echo json_encode($clienteAlterar);
-            http_response_code(201);
-            echo json_encode([
-                'sucesso' => true,
-                'mensagem' => 'Cliente cadastrado com sucesso'
-                'redirecionar' => '/Underground-Ring/telas/homeC.php'
-            ]);
         } catch (PDOException $erro) {
             http_response_code(400);
             echo json_encode([

@@ -88,4 +88,31 @@ async function autenticar() {
         mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
         mensagem.style.color = "red";
     }
+async function alterar(){
+        fetch('http://localhost/Underground-Ring/controladores/rota.php?acao=buscarPeloId', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => response.json()) // Transforma a resposta em um objeto JavaScript
+        .then(resultado => {
+            // Aqui você já tem o objeto pronto para usar!
+            if (resultado.sucesso) {
+                console.log('Mensagem:', resultado.mensagem);
+                console.log('Dados do cliente:', resultado.dadosCliente);
+                
+                // Exemplo de como acessar uma propriedade do cliente (ex: nome)
+                console.log('Nome do cliente:', resultado.dadosCliente.nome);
+
+                // Se quiser redirecionar depois:
+                // window.location.href = resultado.redirecionar;
+            } else {
+                console.error('Erro:', resultado.mensagem);
+            }
+        })
+        .catch(erro => {
+            console.error('Erro na requisição:', erro);
+        });
+    }
 }
