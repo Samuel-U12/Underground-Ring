@@ -39,10 +39,7 @@
             try{
                 $conn = Conexao::criar();
                 $clienteDAO = new clienteDAO();
-                $cliente = $clienteDAO->buscarPeloId($id,$conn);
-                $imagemServico = new imagemServico();
-                $imagemServico->excluirImagem($cliente);
-                $clienteDAO->excluir($id,$conn);
+                $clienteDAO->excluir($cliente,$conn);
             }catch(PDOException $erro) {
                     throw $erro;
             }catch(Exception $erro) {

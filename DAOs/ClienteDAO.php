@@ -86,9 +86,9 @@
             }
         }
         public function excluir($cliente, $conn){
-            $sql = "DELETE FROM clientes WHERE id = ?";
+            $sql = "DELETE FROM clientes WHERE email = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1,$cliente->getId()); 
+            $stmt->bindParam(1,$cliente->getEmail()); 
             $stmt->execute();
         }
 
