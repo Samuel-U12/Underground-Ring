@@ -22,10 +22,10 @@
                 $clienteAutenticado = 
                     $clienteDAO->buscarPeloEmail($cliente,$conn);
                 if($clienteAutenticado != null){
-                    if(password_verify($cliente->getSenha(),
-                        $clienteAutenticado->getSenha())){
-                        return $clienteAutenticado;
-                    } 
+                    if (!$clienteEncontrado || !password_verify($cliente->getSenha(),
+                        $clienteAutenticado->getSenha())) {
+                        throw new Exception("E-mail ou senha não conferem");
+                    }
                 } 
                 throw new Exception("E-mail ou senha não conferem");                
             }catch(PDOException $erro){

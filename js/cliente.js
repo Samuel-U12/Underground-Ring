@@ -26,9 +26,6 @@ async function salvarCliente() {
             }
         );
 
-        const textoResposta = await resposta.text();
-        console.log("Resposta bruta do PHP:", textoResposta);
-
         const dados = JSON.parse(textoResposta);
 
         if (resposta.ok) {
@@ -71,22 +68,13 @@ async function autenticar() {
             }
         );
 
-        const textoResposta = await resposta.text();
-        console.log("Resposta bruta do PHP:", textoResposta);
-
         const dados = JSON.parse(textoResposta);
 
         if (resposta.ok) {
-            Swal.fire({
-                icon: "success",
-                title: "Sucesso!",
-                text: dados.mensagem
-            }).then(() => {
-                if (dados.redirecionar) {
-                    window.location.href = dados.redirecionar;
-                }
-            });
-        } else {
+            if (dados.redirecionar) {
+                window.location.href = dados.redirecionar;
+            }
+        }else {
             mensagem.innerHTML = dados.mensagem || "Falha na autenticação.";
             mensagem.style.color = "red";
         }
