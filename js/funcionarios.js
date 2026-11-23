@@ -44,8 +44,8 @@ async function autenticar() {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
     
-    const autenticarUsuario = {
-        nome:nome,
+    const funcionario = {
+        email:email,
         senha:senha
     }
     try{
@@ -62,16 +62,15 @@ async function autenticar() {
 
         const dados = JSON.parse(textoResposta);
        
-        if(resposta.ok){
-            Swal.fire(
-                {
-                    icon:'success',
-                    title:'Sucesso!',
-                    text: dados.mensagem
-                }
-            )
+        if (resposta.ok) {
+            if (dados.redirecionar) {
+                window.location.href = dados.redirecionar;
+            }
+        }else {
+            mensagem.innerHTML = dados.mensagem || "Falha na autenticação.";
+            mensagem.style.color = "red";
         }
-    }catch (erro) {
+    } catch (erro) {
         mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
         mensagem.style.color = "red";
     }

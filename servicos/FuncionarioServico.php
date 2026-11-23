@@ -20,7 +20,7 @@
                 $conn = Conexao::criar();
                 $funcionarioDAO = new FuncionarioDAO();
                 $funcionarioAutenticado = 
-                    $funcionarioDAO->buscarPelaEmail($funcionario,$conn);
+                    $funcionarioDAO->buscarPeloEmail($funcionario,$conn);
                 if($funcionarioAutenticado != null){
                     if(password_verify($funcionario->getSenha(),
                         $funcionarioAutenticado->getSenha())){

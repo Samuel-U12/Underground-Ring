@@ -199,7 +199,7 @@ switch ($acao) {
             echo json_encode([
                 'sucesso' => true,
                 'mensagem' => 'Autenticado com sucesso',
-                'redirecionar' => '../telas/homeF.php'
+                'redirecionar' => '/Underground-Ring/telas/homeF.php'
             ]);
         } catch (PDOException $erro) {
             http_response_code(400);
