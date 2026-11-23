@@ -5,8 +5,8 @@
 
         public function salvar($funcionario,$conn){
             try{
-                $sql = "INSERT INTO funcionarios(email,senha) VALUES 
-                    (?,?)";
+                $sql = "INSERT INTO funcionarios(nome,email,senha) VALUES 
+                    (?,?,?)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindValue(1,$funcionario->getEmail());
                 $stmt->bindValue(2,$funcionario->getNome());
