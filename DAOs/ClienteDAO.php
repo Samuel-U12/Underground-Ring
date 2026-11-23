@@ -66,6 +66,20 @@
                 throw $erro;
             }
         }
+        public function buscarPeloId($cliente, $conn){
+            $sql = "SELECT * FROM clientes WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1,$id); 
+            $stmt->execute();
+            $cliente = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $clienteModelo = new cliente();
+            $clienteModelo->setId($cliente[0]->id);
+            $clienteModelo->setNome($cliente[0]->nome);
+            $clienteModelo->setFoto_url($cliente[0]->foto_url);
+            $clienteModelo->setQuantidade($cliente[0]->quantidade);
+            $clienteModelo->setPreco($cliente[0]->preco);
+            return $clienteModelo;
+        }
         public function alterar($cliente, $conn){
             try{
                 $sql = "UPDATE clientes

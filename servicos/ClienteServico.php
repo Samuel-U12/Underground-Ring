@@ -35,10 +35,34 @@
                 throw $erro;
             }
         }
+        public function buscarPeloId($cliente){
+            try{
+                $conn = Conexao::criar();
+                $clienteDAO = new ClienteDAO();
+                $cliente = $clienteDAO->buscarPeloId($cliente->getId(),$conn);
+                return $cliente;
+            }catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
+        }
+        public function buscarTodos(){
+            try{
+                $conn = Conexao::criar();
+                $produtoDAO = new ProdutoDAO();
+                $produtos = $produtoDAO->buscar($conn);
+                return $produtos;
+            }catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
+        }
         public function excluir($cliente){
             try{
                 $conn = Conexao::criar();
-                $clienteDAO = new clienteDAO();
+                $clienteDAO = new ClienteDAO();
                 $clienteDAO->excluir($cliente,$conn);
             }catch(PDOException $erro) {
                     throw $erro;
@@ -47,9 +71,15 @@
             }
         }
         public function alterar($cliente, $conn){
-            $conn = Conexao::criar();
-            $clienteDAO = new clienteDAO();
-            $clienteDAO->alterar($cliente, $conn);
+            try{
+                $conn = Conexao::criar();
+                $clienteDAO = new ClienteDAO();
+                $clienteDAO->alterar($cliente, $conn);
+            } catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
         }
     }
 

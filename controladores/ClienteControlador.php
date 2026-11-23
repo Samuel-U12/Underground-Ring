@@ -32,6 +32,19 @@
                 throw $erro;
             }
         }
+        public function buscarPeloId($clienteDTO){
+            try {
+                $clienteServico = new clienteServico();
+                $cliente = $clienteServico->buscarPeloId($id);
+                session_start();
+                $_SESSION['cliente'] = $cliente;
+            }catch(PDOException $erro) {
+                throw $erro;
+            }
+            catch(Exception $erro) {
+                throw $erro;
+            }
+        }
         public function alterarCliente($clienteDTO){
             $cliente = new Cliente();
             $cliente->setNome($clienteDTO->nome);
