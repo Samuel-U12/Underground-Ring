@@ -126,6 +126,7 @@
             $clienteDTO->email = $dados->email;
             $clienteDTO->senha = $dados->senha;
             try{
+                $clienteControlador = new ClienteControlador;
                 $cliente = $clienteControlador->autenticarCliente($clienteDTO);
                 session_start();
                 $_SESSION['cliente'] = $cliente;
