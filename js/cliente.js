@@ -114,5 +114,6 @@ async function alterar(){
         .catch(erro => {
             console.error('Erro na requisição:', erro);
         });
+        /*Colocar os dados no local estorage*/
     }
 }
