@@ -16,19 +16,22 @@
         }
 
         public function autenticar($cliente){
-            try{
+            try {
                 $conn = Conexao::criar();
                 $clienteDAO = new ClienteDAO();
-                $clienteAutenticado = 
-                    $clienteDAO->buscarPeloEmail($cliente,$conn);
-                if($clienteAutenticado != null){
-                    if (!$clienteEncontrado || !password_verify($cliente->getSenha(),
-                        $clienteAutenticado->getSenha())) {
-                        throw new Exception("E-mail ou senha não conferem");
-                    }
-                } 
-                throw new Exception("E-mail ou senha não conferem");                
-            }catch(PDOException $erro){
+                $clienteAutenticado = $clienteDAO->buscarPeloEmail($cliente, $conn);
+
+                if (
+                    !$clienteAutenticado ||
+                    !password_verify($cliente->getSenha(), $clienteAutenticado->getSenha())
+                ) {
+                    throw new Exception("E-mail ou senha não conferem");
+                }
+
+                return $clienteAutenticado;
+            } catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
                 throw $erro;
             }
         }
