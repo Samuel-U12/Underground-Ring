@@ -34,10 +34,10 @@
         }
         public function buscarPeloId($clienteDTO){
             try {
+                $cliente = new Cliente();
+                $cliente->setId($clienteDTO->id);
                 $clienteServico = new clienteServico();
-                $cliente = $clienteServico->buscarPeloId($id);
-                session_start();
-                $_SESSION['cliente'] = $cliente;
+                $cliente = $clienteServico->buscarPeloId($cliente);
             }catch(PDOException $erro) {
                 throw $erro;
             }
