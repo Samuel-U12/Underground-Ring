@@ -47,7 +47,7 @@ class Cliente
         return $this->endereco;
     }
 
-    public function setendereco($endereco){
+    public function setEndereco($endereco){
         $this->endereco = $endereco;
     }
 }

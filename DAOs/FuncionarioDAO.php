@@ -36,6 +36,54 @@
                 return null;
             }            
         }
+        public function buscarTodos($conn){
+            try{
+                $sql = "SELECT * FROM funcionarios";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();     
+                $funcionarios = $stmt->fetchAll(PDO::FETCH_OBJ);
+                $funcionariosModelo = [];
+                foreach($funcionarios as $funcionario){
+                    $funcionarioModelo = new funcionario();
+                    $funcionarioModelo->setId($funcionario->id);
+                    $funcionarioModelo->setNome($funcionario->nome);
+                    $funcionarioModelo->setEmail($funcionario->foto_url);
+                    $funcionarioModelo->setSenha($funcionario->quantidade);
+                    $funcionarioModelo->setEndereco($funcionario->preco);
+                    array_push($funcionariosModelo,$funcionarioModelo);
+                }
+                return $funcionariosModelo;
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
+        }
+        public function alterar($funcionario, $conn){
+            try{
+                $sql = "UPDATE funcionarios
+                    SET nome = ?, email = ?, senha = ?, endereco = ?
+                    WHERE id = ?";
+                
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1,$funcionario->getNome());
+                $stmt->bindParam(2,$funcionario->getEmail());
+                $stmt->bindParam(3,$funcionario->getSenha());
+                $stmt->bindParam(4,$funcionario->getEndereco());
+                $stmt->bindParam(5,$funcionario->getId());
+                $stmt->execute();
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
+        }
+        public function excluir($funcionario, $conn){
+            $sql = "DELETE FROM funcionarios WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1,$funcionario->getId()); 
+            $stmt->execute();
+        }
     }
 
 ?>
