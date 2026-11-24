@@ -150,22 +150,18 @@ switch ($acao) {
         }
         break;
     case 'excluirCliente':
-        $dados = json_decode(file_get_contents("php://input"));
-
-        $clienteDTO = new ClienteDTO();
-        $clienteDTO->nome = $dados->nome ?? '';
-        $clienteDTO->email = $dados->email ?? '';
-        $clienteDTO->senha = $dados->senha ?? '';
-        $clienteDTO->endereco = $dados->endereco ?? '';
+        session_start();
+        $cliente = $_SESSION['cliente'] ?? null;
 
         $clienteControlador = new ClienteControlador();
 
         try {
-            $clienteControlador->alterarCliente($clienteDTO);
+            $clienteControlador->excluirCliente($cliente);
             http_response_code(201);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Cliente alterado com sucesso'
+                'mensagem' => 'Cliente excluido com sucesso'
+                'redirecionar' => '/Underground-Ring/index.html'
             ]);
         } catch (PDOException $erro) {
             http_response_code(400);
@@ -182,69 +178,54 @@ switch ($acao) {
         }
         break;
     case 'buscarPeloId':
-    session_start();
-    $cliente = $_SESSION['cliente'] ?? null;
+        session_start();
+        $cliente = $_SESSION['cliente'] ?? null;
 
-    if (!$cliente) {
-        http_response_code(401);
-        echo json_encode([
-            'sucesso' => false,
-            'mensagem' => 'Sessão do cliente não encontrada.'
-        ]);
-        break;
-    }
-
-    $clienteControlador = new ClienteControlador();
-    try {
-        // Garanta que ClienteControlador::buscarPeloId() e ClienteDAO::buscarPeloId() existam e retornem os dados do cliente
-        $clienteAlterar = $clienteControlador->buscarPeloId($cliente->getId());
-
-        http_response_code(200);
-        echo json_encode([
-            'sucesso' => true,
-            'mensagem' => 'Dados do cliente carregados com sucesso.',
-            'dadosCliente' => $clienteAlterar
-        ]);
-    } catch (PDOException | Exception $erro) {
-        http_response_code(400);
-        echo json_encode([
-            'sucesso' => false,
-            'mensagem' => $erro->getMessage()
-        ]);
-    }
-    break;
+        if (!$cliente) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Sessão do cliente não encontrada.'
+            ]);
+            break;
+        }
 
         $clienteControlador = new ClienteControlador();
         try {
+            // Garanta que ClienteControlador::buscarPeloId() e ClienteDAO::buscarPeloId() existam e retornem os dados do cliente
             $clienteAlterar = $clienteControlador->buscarPeloId($cliente->getId());
-            echo json_encode($clienteAlterar);
-        } catch (PDOException $erro) {
-            http_response_code(400);
+
+            http_response_code(200);
             echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
+                'sucesso' => true,
+                'mensagem' => 'Dados do cliente carregados com sucesso.',
+                'dadosCliente' => $clienteAlterar
             ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
                 'mensagem' => $erro->getMessage()
             ]);
         }
+        break;
     case 'alterarCliente':
         $dados = json_decode(file_get_contents("php://input"));
 
         $clienteDTO = new ClienteDTO();
+        $clienteDTO->nome = $dados->nome;
         $clienteDTO->email = $dados->email;
+        $clienteDTO->senha = $dados->senha;
+        $clienteDTO->endereco= $dados->endereco
 
         $clienteControlador = new ClienteControlador();
 
         try {
-            $clienteControlador->excluirCliente($clienteDTO);
+            $clienteControlador->alterarCliente($clienteDTO);
             http_response_code(201);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Cliente cadastrado com sucesso'
+                'mensagem' => 'Cliente alterado com sucesso'
                 'redirecionar' => '/Underground-Ring/telas/homeC.php'
             ]);
         } catch (PDOException $erro) {

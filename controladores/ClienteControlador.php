@@ -32,7 +32,7 @@
                 throw $erro;
             }
         }
-        public function buscarPeloId($clienteDTO){
+        public function buscarPeloIdCliente($clienteDTO){
             try {
                 $cliente = new Cliente();
                 $cliente->setId($clienteDTO->id);
@@ -63,7 +63,7 @@
         }
         public function excluirCliente($clienteDTO){
             $cliente = new Cliente();
-            $cliente->setEmail($clienteDTO->email);
+            $cliente->setId($clienteDTO->id);
             
             $clienteServico = new clienteServico();
             try{

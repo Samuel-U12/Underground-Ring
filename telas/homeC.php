@@ -20,7 +20,7 @@
     <main>
         <section>
         <button><a href="controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
-        <button><a href="telas/autenticarCliente.html">Editar Perfil</a><button>
+        <button><a href="controladores/rota.php?acao=buscarPeloId">Editar Perfil</a><button>
         </section>
     </main>
 </body>
