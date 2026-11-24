@@ -117,3 +117,61 @@ async function alterar(){
         /*Colocar os dados no local estorage*/
     }
 }
+
+async function carregarDadosCliente() {
+    const mensagem = document.getElementById("mensagem");
+    if (mensagem) {
+        mensagem.innerHTML = "";
+    }
+
+    try {
+        const resposta = await fetch(
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=buscarPeloId",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const textoResposta = await resposta.text();
+        const dados = JSON.parse(textoResposta);
+
+        if (resposta.ok && dados.sucesso) {
+            // Salva o objeto do cliente no localStorage como string JSON
+            localStorage.setItem("dadosCliente", JSON.stringify(dados.dadosCliente));
+            preencherFormularioCliente();
+        } else if (mensagem) {
+            mensagem.innerHTML = dados.mensagem || "Não foi possível carregar os dados do cliente.";
+            mensagem.style.color = "red";
+        }
+    } catch (erro) {
+        if (mensagem) {
+            mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
+            mensagem.style.color = "red";
+        }
+    }
+}
+
+function preencherFormularioCliente() {
+    const dadosSalvos = localStorage.getItem("dadosCliente");
+    if (!dadosSalvos) return;
+
+    const cliente = JSON.parse(dadosSalvos);
+
+    const campoId = document.getElementById("id");
+    const campoNome = document.getElementById("nome");
+    const campoEmail = document.getElementById("email");
+    const campoEndereco = document.getElementById("endereco");
+
+    if (campoId && cliente.id !== undefined) campoId.value = cliente.id;
+    if (campoNome) campoNome.value = cliente.nome || "";
+    if (campoEmail) campoEmail.value = cliente.email || "";
+    if (campoEndereco) campoEndereco.value = cliente.endereco || "";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Se já houver algo no localStorage ao abrir a tela do formulário, preenche na hora
+    preencherFormularioCliente();
+});

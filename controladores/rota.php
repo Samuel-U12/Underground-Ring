@@ -182,8 +182,37 @@ switch ($acao) {
         }
         break;
     case 'buscarPeloId':
-        session_start();
-        $cliente = $_SESSION['cliente'];
+    session_start();
+    $cliente = $_SESSION['cliente'] ?? null;
+
+    if (!$cliente) {
+        http_response_code(401);
+        echo json_encode([
+            'sucesso' => false,
+            'mensagem' => 'Sessão do cliente não encontrada.'
+        ]);
+        break;
+    }
+
+    $clienteControlador = new ClienteControlador();
+    try {
+        // Garanta que ClienteControlador::buscarPeloId() e ClienteDAO::buscarPeloId() existam e retornem os dados do cliente
+        $clienteAlterar = $clienteControlador->buscarPeloId($cliente->getId());
+
+        http_response_code(200);
+        echo json_encode([
+            'sucesso' => true,
+            'mensagem' => 'Dados do cliente carregados com sucesso.',
+            'dadosCliente' => $clienteAlterar
+        ]);
+    } catch (PDOException | Exception $erro) {
+        http_response_code(400);
+        echo json_encode([
+            'sucesso' => false,
+            'mensagem' => $erro->getMessage()
+        ]);
+    }
+    break;
 
         $clienteControlador = new ClienteControlador();
         try {

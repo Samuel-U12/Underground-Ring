@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="formCliente">
+    <input type="hidden" name="id" id="id">
+
+    <label for="nome">Nome:</label>
+    <input type="text" name="nome" id="nome">
+
+    <label for="email">E-mail:</label>
+    <input type="text" name="email" id="email">
+
+    <label for="endereco">Endereço:</label>
+    <input type="text" name="endereco" id="endereco">
+
+    <span id="mensagem"></span>
+</form>
+
+<script src="../js/cliente.js"></script>
+<script>
+    // Busca os dados atualizados do banco via rota.php?acao=buscarPeloId ao abrir a tela
+    carregarDadosCliente();
+</script>
+</body>
+</html>
