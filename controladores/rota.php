@@ -132,7 +132,7 @@ switch ($acao) {
             http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Apagado com sucesso',
+                'mensagem' => 'Cliente fez login com sucesso',
                 'redirecionar' => '/Underground-Ring/telas/homeC.php'
             ]);
         } catch (PDOException $erro) {
@@ -160,7 +160,7 @@ switch ($acao) {
             http_response_code(201);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Cliente excluido com sucesso'
+                'mensagem' => 'Cliente excluido com sucesso',
                 'redirecionar' => '/Underground-Ring/index.html'
             ]);
         } catch (PDOException $erro) {
@@ -193,13 +193,18 @@ switch ($acao) {
         $clienteControlador = new ClienteControlador();
         try {
             // Garanta que ClienteControlador::buscarPeloId() e ClienteDAO::buscarPeloId() existam e retornem os dados do cliente
-            $clienteAlterar = $clienteControlador->buscarPeloId($cliente->getId());
+            $clienteAlterar = $clienteControlador->buscarPeloIdCliente($cliente);
 
             http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
                 'mensagem' => 'Dados do cliente carregados com sucesso.',
-                'dadosCliente' => $clienteAlterar
+                'dadosCliente' => [
+                    'id' => $clienteAlterar->getId(),
+                    'nome' => $clienteAlterar->getNome(),
+                    'email' => $clienteAlterar->getEmail(),
+                    'endereco' => $clienteAlterar->getEndereco()
+                ]
             ]);
         } catch (PDOException | Exception $erro) {
             http_response_code(400);
@@ -213,10 +218,10 @@ switch ($acao) {
         $dados = json_decode(file_get_contents("php://input"));
 
         $clienteDTO = new ClienteDTO();
-        $clienteDTO->nome = $dados->nome;
-        $clienteDTO->email = $dados->email;
-        $clienteDTO->senha = $dados->senha;
-        $clienteDTO->endereco= $dados->endereco
+        $clienteDTO->id = $dados->id ?? null;
+        $clienteDTO->nome = $dados->nome ?? '';
+        $clienteDTO->email = $dados->email ?? '';
+        $clienteDTO->endereco = $dados->endereco ?? '';
 
         $clienteControlador = new ClienteControlador();
 
@@ -225,7 +230,7 @@ switch ($acao) {
             http_response_code(201);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Cliente alterado com sucesso'
+                'mensagem' => 'Cliente alterado com sucesso',
                 'redirecionar' => '/Underground-Ring/telas/homeC.php'
             ]);
         } catch (PDOException $erro) {

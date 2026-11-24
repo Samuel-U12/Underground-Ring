@@ -32,12 +32,11 @@
                 throw $erro;
             }
         }
-        public function buscarPeloIdCliente($clienteDTO){
+        public function buscarPeloIdCliente($cliente){
             try {
-                $cliente = new Cliente();
-                $cliente->setId($clienteDTO->id);
                 $clienteServico = new clienteServico();
                 $cliente = $clienteServico->buscarPeloId($cliente);
+                return $cliente;
             }catch(PDOException $erro) {
                 throw $erro;
             }
@@ -47,9 +46,9 @@
         }
         public function alterarCliente($clienteDTO){
             $cliente = new Cliente();
+            $cliente->setId((int) $clienteDTO->id);
             $cliente->setNome($clienteDTO->nome);
             $cliente->setEmail($clienteDTO->email);
-            $cliente->setSenha($clienteDTO->senha);
             $cliente->setEndereco($clienteDTO->endereco);
 
             $clienteServico = new clienteServico();

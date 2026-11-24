@@ -69,29 +69,28 @@
         public function buscarPeloId($cliente, $conn){
             $sql = "SELECT * FROM clientes WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1,$id); 
+            $stmt->bindValue(1,$cliente->getId()); 
             $stmt->execute();
             $cliente = $stmt->fetchAll(PDO::FETCH_OBJ);
             $clienteModelo = new cliente();
             $clienteModelo->setId($cliente[0]->id);
             $clienteModelo->setNome($cliente[0]->nome);
-            $clienteModelo->setFoto_url($cliente[0]->foto_url);
-            $clienteModelo->setQuantidade($cliente[0]->quantidade);
-            $clienteModelo->setPreco($cliente[0]->preco);
+            $clienteModelo->setEmail($cliente[0]->email);
+            $clienteModelo->setSenha($cliente[0]->senha);
+            $clienteModelo->setEndereco($cliente[0]->endereco);
             return $clienteModelo;
         }
         public function alterar($cliente, $conn){
             try{
                 $sql = "UPDATE clientes
-                    SET nome = ?, email = ?, senha = ?, endereco = ?
-                    WHERE id = ?";
+                        SET nome = ?, email = ?, endereco = ?
+                        WHERE id = ?";
                 
                 $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1,$cliente->getNome());
-                $stmt->bindParam(2,$cliente->getEmail());
-                $stmt->bindParam(3,$cliente->getSenha());
-                $stmt->bindParam(4,$cliente->getEndereco());
-                $stmt->bindParam(5,$cliente->getId());
+                $stmt->bindValue(1, $cliente->getNome());
+                $stmt->bindValue(2, $cliente->getEmail());
+                $stmt->bindValue(3, $cliente->getEndereco());
+                $stmt->bindValue(4, $cliente->getId(), PDO::PARAM_INT);
                 $stmt->execute();
             }catch(PDOException $erro){
                 throw $erro;
@@ -102,7 +101,7 @@
         public function excluir($cliente, $conn){
             $sql = "DELETE FROM clientes WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1,$cliente->getId()); 
+            $stmt->bindValue(1,$cliente->getId()); 
             $stmt->execute();
         }
 

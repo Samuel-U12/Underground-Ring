@@ -65,7 +65,7 @@ async function autenticar() {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(autenticarCliente)
             }
@@ -89,19 +89,19 @@ async function autenticar() {
         mensagem.style.color = "red";
     }
 }
-async function alterar(){
+async function alterar() {
+    const id = document.getElementById("id").value;
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
     const endereco = document.getElementById("endereco").value;
     const mensagem = document.getElementById("mensagem");
 
     mensagem.innerHTML = "";
 
     const cliente = {
+        id: id,
         nome: nome,
         email: email,
-        senha: senha,
         endereco: endereco
     };
 
@@ -122,21 +122,34 @@ async function alterar(){
 
         const dados = JSON.parse(textoResposta);
 
-        if (resposta.ok) {
-            Swal.fire({
-                icon: "success",
-                title: "Sucesso!",
-                text: dados.mensagem
-            });
+        if (resposta.ok && dados.sucesso) {
+            localStorage.setItem("dadosCliente", JSON.stringify({
+                id: id,
+                nome: nome,
+                email: email,
+                endereco: endereco
+            }));
+
+            if (typeof Swal !== "undefined") {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Sucesso!",
+                    text: dados.mensagem
+                });
+            }
+
+            if (dados.redirecionar) {
+                window.location.href = dados.redirecionar;
+            }
         } else {
-            mensagem.innerHTML = dados.mensagem || "Não foi possível salvar o cliente.";
+            mensagem.innerHTML = dados.mensagem || "Não foi possível alterar o cliente.";
             mensagem.style.color = "red";
         }
     } catch (erro) {
         mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
         mensagem.style.color = "red";
     }
-    }
+}
 
 async function carregarDadosCliente() {
     const mensagem = document.getElementById("mensagem");
@@ -156,6 +169,7 @@ async function carregarDadosCliente() {
         );
 
         const textoResposta = await resposta.text();
+        console.log("Resposta bruta do PHP:", textoResposta);
         const dados = JSON.parse(textoResposta);
 
         if (resposta.ok && dados.sucesso) {

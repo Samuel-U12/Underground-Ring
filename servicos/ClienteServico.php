@@ -39,8 +39,8 @@
             try{
                 $conn = Conexao::criar();
                 $clienteDAO = new ClienteDAO();
-                $cliente = $clienteDAO->buscarPeloId($cliente->getId(),$conn);
-                return $cliente;
+                $clienteBuscado = $clienteDAO->buscarPeloId($cliente,$conn);
+                return $clienteBuscado;
             }catch (PDOException $erro) {
                 throw $erro;
             } catch (Exception $erro) {
@@ -70,7 +70,7 @@
                 throw $erro;
             }
         }
-        public function alterar($cliente, $conn){
+        public function alterar($cliente){
             try{
                 $conn = Conexao::criar();
                 $clienteDAO = new ClienteDAO();
