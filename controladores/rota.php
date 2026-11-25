@@ -401,7 +401,7 @@ switch ($acao) {
 
         try {
             $clienteControlador->excluirCliente($cliente);
-            header('Location: ../index.html')
+            header('Location: ../index.html');
         } catch (\Throwable $th) {
             //throw $th;
         }

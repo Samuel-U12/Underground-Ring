@@ -196,8 +196,7 @@ function preencherFormularioCliente() {
 
     const campoId = document.getElementById("id");
     const campoNome = document.getElementById("nome");
-    const campoEmail = document.getElementById("email");
-    const campoSenha = document.getElementById("senha");    
+    const campoEmail = document.getElementById("email");  
     const campoEndereco = document.getElementById("endereco");
 
     if (campoId && cliente.id !== undefined) campoId.value = cliente.id;
