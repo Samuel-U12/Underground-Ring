@@ -247,3 +247,41 @@ async function excluirFuncionario() {
 document.addEventListener("DOMContentLoaded", () => {
     preencherFormularioFuncionario();
 });
+
+async function carregarTodosClientes() {
+    const corpo = document.getElementById("corpoTabelaClientes");
+    const mensagem = document.getElementById("mensagem");
+    if (!corpo) return;
+
+    corpo.innerHTML = "";
+    if (mensagem) mensagem.innerHTML = "";
+
+    try {
+        const resposta = await fetch(
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=verTodosClientes",
+            { method: "GET" }
+        );
+        const dados = JSON.parse(await resposta.text());
+
+        if (resposta.ok && dados.sucesso) {
+            dados.clientes.forEach((c) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${c.id}</td>
+                    <td>${c.nome}</td>
+                    <td>${c.email}</td>
+                    <td>${c.endereco}</td>
+                `;
+                corpo.appendChild(tr);
+            });
+        } else if (mensagem) {
+            mensagem.innerHTML = dados.mensagem || "Não foi possível carregar os clientes.";
+            mensagem.style.color = "red";
+        }
+    } catch (erro) {
+        if (mensagem) {
+            mensagem.innerHTML = erro.message || "Erro ao buscar clientes.";
+            mensagem.style.color = "red";
+        }
+    }
+}

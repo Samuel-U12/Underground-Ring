@@ -1,10 +1,12 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if(!isset($_SESSION['funcionario'])){
-        header('Location:autenticarFuncionario.html');
-    }
+}
+if (!isset($_SESSION['funcionario'])) {
+    header('Location: autenticarFuncionario.html');
+    exit;
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,7 +25,7 @@
             <br><br>
             <button><a href="../controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
             <button><a href="perfilFuncionarios.html">Perfil</a></button>
-            <button><a href="">Ver Todos os clientes</a></button>
+            <button><a href="verTodosClientes.php">Ver Todos os clientes</a></button>
         </section>
     </main>
 </body>

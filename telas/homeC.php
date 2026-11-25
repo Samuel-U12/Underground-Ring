@@ -1,10 +1,12 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if(!isset($_SESSION['cliente'])){
-        header('Location:autenticarCliente.html');
-    }
+}
+if (!isset($_SESSION['cliente'])) {
+    header('Location: autenticarCliente.html');
+    exit;
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

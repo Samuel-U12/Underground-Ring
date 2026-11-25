@@ -8,8 +8,20 @@ require_once "ClienteControlador.php";
 
 $acao = $_GET['acao'] ?? '';
 
+function exigirFuncionario(): void {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (!isset($_SESSION['funcionario'])) {
+        header('Location: ../telas/autenticarFuncionario.html');
+        exit;
+    }
+}
+
 switch ($acao) {
     case 'salvarProduto':
+        exigirFuncionario();
+
         $produtoDTO = new ProdutoDTO();
         $produtoDTO->nome = $_POST['nome'] ?? '';
         $produtoDTO->quantidade = $_POST['quantidade'] ?? 0;
@@ -31,49 +43,66 @@ switch ($acao) {
         break;
 
     case 'buscarProduto':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['cliente']) && !isset($_SESSION['funcionario'])) {
+            header('Location: ../index.html');
+            exit;
+        }
+
         $produtoControlador = new produtoControlador();
         try {
             $produtoControlador->buscar();
         } catch (PDOException $erro) {
             echo "Erro na base de dados " . $erro->getMessage();
+            exit;
         } catch (Exception $erro) {
             echo "Erro inesperado";
+            exit;
         }
-        header('Location:../telas/mostrarProdutos.php');
+        header('Location: ../telas/mostrarProdutos.php');
         break;
 
     case 'excluirProduto':
-        $id = $_GET['id'];
+        exigirFuncionario();
+
+        $id = $_GET['id'] ?? 0;
         $produtoControlador = new ProdutoControlador();
         try {
             $produtoControlador->excluir($id);
         } catch (Exception $erro) {
             echo "Erro: " . $erro->getMessage();
+            exit;
         }
-        header('Location:rota.php?acao=buscarProduto');
+        header('Location: rota.php?acao=buscarProduto');
         break;
 
     case 'buscarProdutoPorId':
-        $id = $_GET['id'];
+        exigirFuncionario();
+
+        $id = $_GET['id'] ?? 0;
         try {
             $produtoControlador = new produtoControlador();
             $produtoControlador->buscarPeloId($id);
-            header('Location:../telas/formAlterarProduto.php');
+            header('Location: ../telas/formAlterarProduto.php');
         } catch (PDOException $erro) {
             echo $erro->getMessage();
         }
         break;
 
     case 'alterarProduto':
+        exigirFuncionario();
+
         $produtoDTO = new ProdutoDTO();
-        $produtoDTO->id = $_POST['id'];
-        $produtoDTO->nome = $_POST['nome'];
-        $produtoDTO->quantidade = $_POST['quantidade'];
-        $produtoDTO->preco = $_POST['preco'];
+        $produtoDTO->id = $_POST['id'] ?? 0;
+        $produtoDTO->nome = $_POST['nome'] ?? '';
+        $produtoDTO->quantidade = $_POST['quantidade'] ?? 0;
+        $produtoDTO->preco = $_POST['preco'] ?? 0.0;
         $produtoControlador = new produtoControlador();
         try {
             $produtoControlador->alterar($produtoDTO);
-            header('Location:rota.php?acao=buscarProduto');
+            header('Location: rota.php?acao=buscarProduto');
         } catch (PDOException $erro) {
             echo "Erro na base de dados " . $erro->getMessage();
         } catch (Exception $erro) {
@@ -119,7 +148,9 @@ switch ($acao) {
 
         try {
             $cliente = $clienteControlador->autenticarCliente($clienteDTO);
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['cliente'] = $cliente;
             http_response_code(200);
             echo json_encode([
@@ -137,7 +168,9 @@ switch ($acao) {
         break;
 
     case 'buscarPeloIdCliente':
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $cliente = $_SESSION['cliente'] ?? null;
 
         if (!$cliente) {
@@ -203,7 +236,9 @@ switch ($acao) {
         break;
 
     case 'excluirCliente':
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $cliente = $_SESSION['cliente'] ?? null;
 
         if (!$cliente) {
@@ -274,7 +309,9 @@ switch ($acao) {
 
         try {
             $funcionario = $funcionarioControlador->autenticarFuncionario($funcionarioDTO);
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['funcionario'] = $funcionario;
             http_response_code(200);
             echo json_encode([
@@ -292,7 +329,9 @@ switch ($acao) {
         break;
 
     case 'buscarPeloIdFuncionario':
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $funcionario = $_SESSION['funcionario'] ?? null;
 
         if (!$funcionario) {
@@ -356,7 +395,9 @@ switch ($acao) {
         break;
 
     case 'excluirFuncionario':
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $funcionario = $_SESSION['funcionario'] ?? null;
 
         if (!$funcionario) {
@@ -391,5 +432,42 @@ switch ($acao) {
         break;
 
     case 'verTodosClientes':
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['funcionario'])) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Acesso restrito a funcionários.'
+            ]);
+            break;
+        }
+
+        $clienteControlador = new ClienteControlador();
+        try {
+            $clientes = $clienteControlador->buscarTodosClientes();
+            $lista = [];
+            foreach ($clientes as $c) {
+                $lista[] = [
+                    'id' => $c->getId(),
+                    'nome' => $c->getNome(),
+                    'email' => $c->getEmail(),
+                    'endereco' => $c->getEndereco()
+                ];
+            }
+
+            http_response_code(200);
+            echo json_encode([
+                'sucesso' => true,
+                'clientes' => $lista
+            ]);
+        } catch (PDOException | Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        }
         break;
 }

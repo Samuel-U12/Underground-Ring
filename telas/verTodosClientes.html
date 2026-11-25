@@ -1,0 +1,40 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['funcionario'])) {
+    header('Location: autenticarFuncionario.html');
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos os Clientes</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <h1>Clientes cadastrados</h1>
+    <table border="1" id="tabelaClientes">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Endereço</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabelaClientes"></tbody>
+    </table>
+    <span id="mensagem"></span>
+    <br><br>
+    <button><a href="homeF.php">Voltar</a></button>
+
+    <script src="../js/funcionarios.js"></script>
+    <script>
+        carregarTodosClientes();
+    </script>
+</body>
+</html>
