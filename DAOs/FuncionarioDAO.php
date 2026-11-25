@@ -59,18 +59,30 @@
                 throw $erro;
             }
         }
+        public function buscarPeloId($funcionario, $conn){
+            $sql = "SELECT * FROM funcionarios WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(1,$funcionario->getId()); 
+            $stmt->execute();
+            $funcionario = $stmt->fetchAll(PDO::FETCH_OBJ);
+            $funcionarioModelo = new funcionario();
+            $funcionarioModelo->setId($funcionario[0]->id);
+            $funcionarioModelo->setNome($funcionario[0]->nome);
+            $funcionarioModelo->setEmail($funcionario[0]->email);
+            $funcionarioModelo->setSenha($funcionario[0]->senha);
+            return $funcionarioModelo;
+        }
         public function alterar($funcionario, $conn){
             try{
                 $sql = "UPDATE funcionarios
-                    SET nome = ?, email = ?, senha = ?, endereco = ?
-                    WHERE id = ?";
+                        SET nome = ?, email = ?, senha = ?
+                        WHERE id = ?";
                 
                 $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1,$funcionario->getNome());
-                $stmt->bindParam(2,$funcionario->getEmail());
-                $stmt->bindParam(3,$funcionario->getSenha());
-                $stmt->bindParam(4,$funcionario->getEndereco());
-                $stmt->bindParam(5,$funcionario->getId());
+                $stmt->bindValue(1, $funcionario->getNome());
+                $stmt->bindValue(2, $funcionario->getEmail());
+                $stmt->bindValue(3, $funcionario->getSenha());
+                $stmt->bindValue(4, $funcionario->getId(), PDO::PARAM_INT);
                 $stmt->execute();
             }catch(PDOException $erro){
                 throw $erro;
@@ -81,7 +93,7 @@
         public function excluir($funcionario, $conn){
             $sql = "DELETE FROM funcionarios WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(1,$funcionario->getId()); 
+            $stmt->bindValue(1,$funcionario->getId()); 
             $stmt->execute();
         }
     }

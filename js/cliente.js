@@ -159,7 +159,7 @@ async function carregarDadosCliente() {
 
     try {
         const resposta = await fetch(
-            "http://localhost/Underground-Ring/controladores/rota.php?acao=buscarPeloId",
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=buscarPeloIdCliente",
             {
                 method: "GET",
                 headers: {
@@ -197,11 +197,13 @@ function preencherFormularioCliente() {
     const campoId = document.getElementById("id");
     const campoNome = document.getElementById("nome");
     const campoEmail = document.getElementById("email");
+    const campoSenha = document.getElementById("senha");    
     const campoEndereco = document.getElementById("endereco");
 
     if (campoId && cliente.id !== undefined) campoId.value = cliente.id;
     if (campoNome) campoNome.value = cliente.nome || "";
     if (campoEmail) campoEmail.value = cliente.email || "";
+    if (campoSenha) campoEmail.value = cliente.senha || "";
     if (campoEndereco) campoEndereco.value = cliente.endereco || "";
 }
 

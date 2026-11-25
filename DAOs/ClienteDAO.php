@@ -83,14 +83,15 @@
         public function alterar($cliente, $conn){
             try{
                 $sql = "UPDATE clientes
-                        SET nome = ?, email = ?, endereco = ?
+                        SET nome = ?, email = ?, endereco = ?, senha = ?
                         WHERE id = ?";
                 
                 $stmt = $conn->prepare($sql);
                 $stmt->bindValue(1, $cliente->getNome());
                 $stmt->bindValue(2, $cliente->getEmail());
                 $stmt->bindValue(3, $cliente->getEndereco());
-                $stmt->bindValue(4, $cliente->getId(), PDO::PARAM_INT);
+                $stmt->bindValue(4, $cliente->getSenha());
+                $stmt->bindValue(5, $cliente->getId(), PDO::PARAM_INT);
                 $stmt->execute();
             }catch(PDOException $erro){
                 throw $erro;

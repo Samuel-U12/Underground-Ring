@@ -177,7 +177,7 @@ switch ($acao) {
             ]);
         }
         break;
-    case 'buscarPeloId':
+    case 'buscarPeloIdCliente':
         session_start();
         $cliente = $_SESSION['cliente'] ?? null;
 
@@ -203,6 +203,7 @@ switch ($acao) {
                     'id' => $clienteAlterar->getId(),
                     'nome' => $clienteAlterar->getNome(),
                     'email' => $clienteAlterar->getEmail(),
+                    'senha' => $clienteAlterar->getSenha(),
                     'endereco' => $clienteAlterar->getEndereco()
                 ]
             ]);
@@ -221,6 +222,7 @@ switch ($acao) {
         $clienteDTO->id = $dados->id ?? null;
         $clienteDTO->nome = $dados->nome ?? '';
         $clienteDTO->email = $dados->email ?? '';
+        $clienteDTO->senha = $dados->senha ?? '';
         $clienteDTO->endereco = $dados->endereco ?? '';
 
         $clienteControlador = new ClienteControlador();
@@ -313,4 +315,72 @@ switch ($acao) {
             ]);
         }
         break;
-}
+    case 'buscarPeloIdFuncionario':
+        session_start();
+        $funcionario = $_SESSION['funcionario'] ?? null;
+
+        if (!$funcionario) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Sessão do funcionario não encontrada.'
+            ]);
+            break;
+        }
+
+        $funcionarioControlador = new FuncionarioControlador();
+        try {
+            $funcionarioAlterar = $funcionarioControlador->buscarPeloIdFuncionario($funcionario);
+
+            http_response_code(200);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Dados do funcionario carregados com sucesso.',
+                'dadosFuncionario' => [
+                    'id' => $funcionarioAlterar->getId(),
+                    'nome' => $funcionarioAlterar->getNome(),
+                    'email' => $funcionarioAlterar->getEmail(),
+                    'senha' => $funcionarioAlterar->getSenha()
+                ]
+            ]);
+        } catch (PDOException | Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        }
+        break;
+    case 'alterarFuncionario':
+        $dados = json_decode(file_get_contents("php://input"));
+
+        $funcionarioDTO = new ClienteDTO();
+        $funcionarioDTO->id = $dados->id ?? null;
+        $funcionarioDTO->nome = $dados->nome ?? '';
+        $funcionarioDTO->email = $dados->email ?? '';
+
+        $funcionarioControlador = new FuncionarioControlador();
+
+        try {
+            $funcionarioControlador->alterarFuncionario($funcionarioDTO);
+            http_response_code(201);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Funcionario alterado com sucesso',
+                'redirecionar' => '/Underground-Ring/telas/homeC.php'
+            ]);
+        } catch (PDOException $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        } catch (Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
+        }
+        break;
+        }

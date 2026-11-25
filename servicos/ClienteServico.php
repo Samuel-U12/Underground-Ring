@@ -50,9 +50,9 @@
         public function buscarTodos(){
             try{
                 $conn = Conexao::criar();
-                $produtoDAO = new ProdutoDAO();
-                $produtos = $produtoDAO->buscar($conn);
-                return $produtos;
+                $clienteDAO = new clienteDAO();
+                $clientes = $clienteDAO->buscar($conn);
+                return $clientes;
             }catch (PDOException $erro) {
                 throw $erro;
             } catch (Exception $erro) {

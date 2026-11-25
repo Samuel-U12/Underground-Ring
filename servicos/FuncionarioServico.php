@@ -32,6 +32,30 @@
                 throw $erro;
             }
         }
+       public function buscarPeloId($funcionario){
+            try{
+                $conn = Conexao::criar();
+                $funcionarioDAO = new funcionarioDAO();
+                $funcionarioBuscado = $funcionarioDAO->buscarPeloId($funcionario,$conn);
+                return $funcionarioBuscado;
+            }catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
+        }
+        public function buscarTodos(){
+            try{
+                $conn = Conexao::criar();
+                $funcionarioDAO = new funcionarioDAO();
+                $funcionarios = $funcionarioDAO->buscar($conn);
+                return $funcionarios;
+            }catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
+        }
         public function excluir($funcionario){
             try{
                 $conn = Conexao::criar();
@@ -43,10 +67,16 @@
                 throw $erro;
             }
         }
-        public function alterar($funcionario, $conn){
-            $conn = Conexao::criar();
-            $funcionarioDAO = new funcionarioDAO();
-            $funcionarioDAO->alterar($funcionario, $conn);
+        public function alterar($funcionario){
+            try{
+                $conn = Conexao::criar();
+                $funcionarioDAO = new funcionarioDAO();
+                $funcionarioDAO->alterar($funcionario, $conn);
+            } catch (PDOException $erro) {
+                throw $erro;
+            } catch (Exception $erro) {
+                throw $erro;
+            }
         }
     }
 

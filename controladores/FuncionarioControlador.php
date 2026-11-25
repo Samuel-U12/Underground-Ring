@@ -31,11 +31,45 @@
                 throw $erro;
             }
         }
-        public function alterarFuncionario($funcionarioDTO){
-            
+        public function buscarPeloIdfuncionario($funcionario){
+            try {
+                $funcionarioServico = new funcionarioServico();
+                $funcionario = $funcionarioServico->buscarPeloId($funcionario);
+                return $funcionario;
+            }catch(PDOException $erro) {
+                throw $erro;
+            }
+            catch(Exception $erro) {
+                throw $erro;
+            }
         }
-        public function excluirFuncionario($funcionarioDTO){
+        public function alterarfuncionario($funcionarioDTO){
+            $funcionario = new funcionario();
+            $funcionario->setId((int) $funcionarioDTO->id);
+            $funcionario->setNome($funcionarioDTO->nome);
+            $funcionario->setEmail($funcionarioDTO->email);
 
+            $funcionarioServico = new funcionarioServico();
+            try{
+                $funcionarioServico->alterar($funcionario);
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
+        }
+        public function excluirfuncionario($funcionarioDTO){
+            $funcionario = new funcionario();
+            $funcionario->setId($funcionarioDTO->id);
+            
+            $funcionarioServico = new funcionarioServico();
+            try{
+                $funcionarioServico->excluir($funcionario);
+            }catch(PDOException $erro){
+                throw $erro;
+            }catch(Exception $erro){
+                throw $erro;
+            }
         }
     }
 ?>

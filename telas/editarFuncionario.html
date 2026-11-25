@@ -7,19 +7,22 @@
 </head>
 <body>
     <form id="formFuncionario">
-    <input type="hidden" name="id" id="id">
+        <input type="hidden" name="id" id="id">
 
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="nome">
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome">
 
-    <label for="email">E-mail:</label>
-    <input type="text" name="email" id="email">
+        <label for="email">E-mail:</label>
+        <input type="text" name="email" id="email">
 
-    <label for="senha">Senha:</label>
-    <input type="text" name="senha" id="senha">
+        <label for="senha">Senha:</label>
+        <input type="text" name="senha" id="senha">
+
+        <button type="button" onclick="alterar()">Alterar</button>
+    </form>
 
     <span id="mensagem"></span>
-</form>
+    <script src="[https://cdn.jsdelivr.net/npm/sweetalert2@11](https://cdn.jsdelivr.net/npm/sweetalert2@11)"></script>
 
 <script src="../js/funcionarios.js"></script>
 <script>
