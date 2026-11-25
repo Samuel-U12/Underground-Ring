@@ -15,8 +15,8 @@
         <label for="email">E-mail:</label>
         <input type="text" name="email" id="email">
 
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha">
+        <label for="senha">Nova senha (deixe em branco para manter a atual):</label>
+        <input type="password" name="senha" id="senha">
 
         <button type="button" onclick="alterar()">Alterar</button>
     </form>
@@ -27,7 +27,7 @@
 <script src="../js/funcionarios.js"></script>
 <script>
     // Busca os dados atualizados do banco via rota.php?acao=buscarPeloId ao abrir a tela
-    carregarDadosCliente();
+    carregarDadosFuncionario();
 </script>
 </body>
 </html>

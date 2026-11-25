@@ -31,7 +31,7 @@
                 throw $erro;
             }
         }
-        public function buscarPeloIdfuncionario($funcionario){
+        public function buscarPeloIdFuncionario($funcionario){
             try {
                 $funcionarioServico = new funcionarioServico();
                 $funcionario = $funcionarioServico->buscarPeloId($funcionario);
@@ -43,11 +43,12 @@
                 throw $erro;
             }
         }
-        public function alterarfuncionario($funcionarioDTO){
+        public function alterarFuncionario($funcionarioDTO){
             $funcionario = new funcionario();
             $funcionario->setId((int) $funcionarioDTO->id);
             $funcionario->setNome($funcionarioDTO->nome);
             $funcionario->setEmail($funcionarioDTO->email);
+            $funcionario->setSenha($funcionarioDTO->senha);
 
             $funcionarioServico = new funcionarioServico();
             try{

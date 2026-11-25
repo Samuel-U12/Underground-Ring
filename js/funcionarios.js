@@ -76,10 +76,10 @@ async function autenticar() {
     }
 }
 async function alterar() {
-    const id = document.getElementById("id").value;
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const endereco = document.getElementById("endereco").value;
+    const id = document.getElementById("id")?.value ?? "";
+    const nome = document.getElementById("nome")?.value ?? "";
+    const email = document.getElementById("email")?.value ?? "";
+    const senha = document.getElementById("senha")?.value ?? "";
     const mensagem = document.getElementById("mensagem");
 
     mensagem.innerHTML = "";
@@ -88,12 +88,12 @@ async function alterar() {
         id: id,
         nome: nome,
         email: email,
-        endereco: endereco
+        senha: senha
     };
 
     try {
         const resposta = await fetch(
-            "http://localhost/Underground-Ring/controladores/rota.php?acao=alterarfuncionario",
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=alterarFuncionario",
             {
                 method: "POST",
                 headers: {
@@ -113,7 +113,7 @@ async function alterar() {
                 id: id,
                 nome: nome,
                 email: email,
-                endereco: endereco
+                senha: senha
             }));
 
             if (typeof Swal !== "undefined") {
@@ -137,7 +137,7 @@ async function alterar() {
     }
 }
 
-async function carregarDadosfuncionario() {
+async function carregarDadosFuncionario() {
     const mensagem = document.getElementById("mensagem");
     if (mensagem) {
         mensagem.innerHTML = "";
@@ -160,7 +160,7 @@ async function carregarDadosfuncionario() {
 
         if (resposta.ok && dados.sucesso) {
             // Salva o objeto do funcionario no localStorage como string JSON
-            localStorage.setItem("dadosfuncionario", JSON.stringify(dados.dadosfuncionario));
+            localStorage.setItem("dadosFuncionario", JSON.stringify(dados.dadosFuncionario));
             preencherFormulariofuncionario();
         } else if (mensagem) {
             mensagem.innerHTML = dados.mensagem || "Não foi possível carregar os dados do funcionario.";
@@ -175,7 +175,7 @@ async function carregarDadosfuncionario() {
 }
 
 function preencherFormulariofuncionario() {
-    const dadosSalvos = localStorage.getItem("dadosfuncionario");
+    const dadosSalvos = localStorage.getItem("dadosFuncionario");
     if (!dadosSalvos) return;
 
     const funcionario = JSON.parse(dadosSalvos);
@@ -183,12 +183,10 @@ function preencherFormulariofuncionario() {
     const campoId = document.getElementById("id");
     const campoNome = document.getElementById("nome");
     const campoEmail = document.getElementById("email");
-    const campoEndereco = document.getElementById("endereco");
 
     if (campoId && funcionario.id !== undefined) campoId.value = funcionario.id;
     if (campoNome) campoNome.value = funcionario.nome || "";
     if (campoEmail) campoEmail.value = funcionario.email || "";
-    if (campoEndereco) campoEndereco.value = funcionario.endereco || "";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

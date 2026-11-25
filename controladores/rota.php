@@ -358,6 +358,7 @@ switch ($acao) {
         $funcionarioDTO->id = $dados->id ?? null;
         $funcionarioDTO->nome = $dados->nome ?? '';
         $funcionarioDTO->email = $dados->email ?? '';
+        $funcionarioDTO->senha = $dados->senha ?? '';
 
         $funcionarioControlador = new FuncionarioControlador();
 

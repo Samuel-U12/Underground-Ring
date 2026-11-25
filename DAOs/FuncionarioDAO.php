@@ -72,21 +72,33 @@
             $funcionarioModelo->setSenha($funcionario[0]->senha);
             return $funcionarioModelo;
         }
-        public function alterar($funcionario, $conn){
-            try{
-                $sql = "UPDATE funcionarios
-                        SET nome = ?, email = ?, senha = ?
-                        WHERE id = ?";
-                
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(1, $funcionario->getNome());
-                $stmt->bindValue(2, $funcionario->getEmail());
-                $stmt->bindValue(3, $funcionario->getSenha());
-                $stmt->bindValue(4, $funcionario->getId(), PDO::PARAM_INT);
+       public function alterar($funcionario, $conn){
+            try {
+                $senhaDigitada = $funcionario->getSenha();
+
+                if (!empty($senhaDigitada)) {
+                    $sql = "UPDATE funcionarios
+                            SET nome = ?, email = ?, senha = ?
+                            WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(1, $funcionario->getNome());
+                    $stmt->bindValue(2, $funcionario->getEmail());
+                    $stmt->bindValue(3, password_hash($senhaDigitada, PASSWORD_DEFAULT));
+                    $stmt->bindValue(4, $funcionario->getId(), PDO::PARAM_INT);
+                } else {
+                    $sql = "UPDATE funcionarios
+                            SET nome = ?, email = ?
+                            WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(1, $funcionario->getNome());
+                    $stmt->bindValue(2, $funcionario->getEmail());
+                    $stmt->bindValue(3, $funcionario->getId(), PDO::PARAM_INT);
+                }
+
                 $stmt->execute();
-            }catch(PDOException $erro){
+            } catch (PDOException $erro) {
                 throw $erro;
-            }catch(Exception $erro){
+            } catch (Exception $erro) {
                 throw $erro;
             }
         }
