@@ -61,12 +61,9 @@
                 throw $erro;
             }
         }
-        public function excluirCliente($clienteDTO){
-            $cliente = new Cliente();
-            $cliente->setId($clienteDTO->id);
-            
-            $clienteServico = new clienteServico();
+        public function excluirCliente($cliente){
             try{
+                $clienteServico = new clienteServico();
                 $clienteServico->excluir($cliente);
             }catch(PDOException $erro){
                 throw $erro;

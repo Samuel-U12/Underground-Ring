@@ -384,4 +384,28 @@ switch ($acao) {
             ]);
         }
         break;
+    case 'excluirCliente':
+        session_start();
+        $cliente = $_SESSION['cliente'] ?? null;
+
+        if (!$cliente) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Sessão do cliente não encontrada.'
+            ]);
+            break;
+        }
+
+        $clienteControlador = new FuncionarioControlador();
+
+        try {
+            $clienteControlador->excluirCliente($cliente);
+            header('Location: ../index.html')
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        break;
+    case 'verTodosClientes':
+        break;
         }

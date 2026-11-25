@@ -19,11 +19,12 @@
     </header>
     <main>
         <section>
-        <button><a href="telas/cadastrarProduto.html">Cadastrar Produto</a></button>
-        <br><br>
-        <button><a href="controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
+            <button><a href="telas/cadastrarProduto.html">Cadastrar Produto</a></button>
+            <br><br>
+            <button><a href="controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
 
-        <button><a href="editarFuncionario.html">Editar Perfil</a><button>
+            <button><a href="editarFuncionario.html">Editar Perfil de funcionario</a><button>
+            <button><a href="">Ver Todos os clientes</a><button>
         </section>
     </main>
 </body>

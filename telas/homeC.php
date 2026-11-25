@@ -20,7 +20,8 @@
     <main>
         <section>
         <button><a href="../controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
-        <button><a href="editarCliente.html">Editar Perfil</a><button>
+        <button><a href="editarCliente.html">Editar Perfil</a></button>
+        <button><a href="../controladores/rota.php?acao=excluirCliente">Excluir Perfil</a></button>
         </section>
     </main>
 </body>
