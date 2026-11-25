@@ -24,6 +24,7 @@
             <button><a href="controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
 
             <button><a href="editarFuncionario.html">Editar Perfil de funcionario</a><button>
+            <button><a href="../controladores/rota.php?acao=excluirFuncionario">Excluir Perfil</a></button>
             <button><a href="">Ver Todos os clientes</a><button>
         </section>
     </main>

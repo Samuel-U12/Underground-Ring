@@ -59,7 +59,7 @@
                 throw $erro;
             }
         }
-        public function excluirfuncionario($funcionarioDTO){
+        public function excluirFuncionario($funcionarioDTO){
             $funcionario = new funcionario();
             $funcionario->setId($funcionarioDTO->id);
             

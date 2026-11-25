@@ -368,7 +368,7 @@ switch ($acao) {
             echo json_encode([
                 'sucesso' => true,
                 'mensagem' => 'Funcionario alterado com sucesso',
-                'redirecionar' => '/Underground-Ring/telas/homeC.php'
+                'redirecionar' => '/Underground-Ring/telas/homeF.php'
             ]);
         } catch (PDOException $erro) {
             http_response_code(400);
@@ -401,6 +401,28 @@ switch ($acao) {
 
         try {
             $clienteControlador->excluirCliente($cliente);
+            header('Location: ../index.html');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        break;
+        case 'excluirFuncionario':
+        session_start();
+        $funcionario = $_SESSION['funcionario'] ?? null;
+
+        if (!$funcionario) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Sessão do cliente não encontrada.'
+            ]);
+            break;
+        }
+
+        $funcionarioControlador = new FuncionarioControlador();
+
+        try {
+            $funcionarioControlador->excluirFuncionario($funcionario);
             header('Location: ../index.html');
         } catch (\Throwable $th) {
             //throw $th;
