@@ -6,12 +6,12 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Home Funcionário</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <header>
@@ -19,13 +19,11 @@
     </header>
     <main>
         <section>
-            <button><a href="telas/cadastrarProduto.html">Cadastrar Produto</a></button>
+            <button><a href="cadastrarProduto.html">Cadastrar Produto</a></button>
             <br><br>
-            <button><a href="controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
-
-            <button><a href="editarFuncionario.html">Editar Perfil de funcionario</a><button>
-            <button><a href="../controladores/rota.php?acao=excluirFuncionario">Excluir Perfil</a></button>
-            <button><a href="">Ver Todos os clientes</a><button>
+            <button><a href="../controladores/rota.php?acao=buscarProduto">Ver produtos</a></button>
+            <button><a href="perfilFuncionarios.html">Perfil</a></button>
+            <button><a href="">Ver Todos os clientes</a></button>
         </section>
     </main>
 </body>

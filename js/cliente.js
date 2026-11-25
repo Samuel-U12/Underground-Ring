@@ -80,7 +80,7 @@ async function autenticar() {
             if (dados.redirecionar) {
                 window.location.href = dados.redirecionar;
             }
-        }else {
+        } else {
             mensagem.innerHTML = dados.mensagem || "Falha na autenticação.";
             mensagem.style.color = "red";
         }
@@ -89,19 +89,22 @@ async function autenticar() {
         mensagem.style.color = "red";
     }
 }
+
 async function alterar() {
-    const id = document.getElementById("id").value;
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const endereco = document.getElementById("endereco").value;
+    const id = document.getElementById("id")?.value ?? "";
+    const nome = document.getElementById("nome")?.value ?? "";
+    const email = document.getElementById("email")?.value ?? "";
+    const senha = document.getElementById("senha")?.value ?? "";
+    const endereco = document.getElementById("endereco")?.value ?? "";
     const mensagem = document.getElementById("mensagem");
 
-    mensagem.innerHTML = "";
+    if (mensagem) mensagem.innerHTML = "";
 
     const cliente = {
         id: id,
         nome: nome,
         email: email,
+        senha: senha,
         endereco: endereco
     };
 
@@ -141,13 +144,15 @@ async function alterar() {
             if (dados.redirecionar) {
                 window.location.href = dados.redirecionar;
             }
-        } else {
+        } else if (mensagem) {
             mensagem.innerHTML = dados.mensagem || "Não foi possível alterar o cliente.";
             mensagem.style.color = "red";
         }
     } catch (erro) {
-        mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
-        mensagem.style.color = "red";
+        if (mensagem) {
+            mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
+            mensagem.style.color = "red";
+        }
     }
 }
 
@@ -173,7 +178,6 @@ async function carregarDadosCliente() {
         const dados = JSON.parse(textoResposta);
 
         if (resposta.ok && dados.sucesso) {
-            // Salva o objeto do cliente no localStorage como string JSON
             localStorage.setItem("dadosCliente", JSON.stringify(dados.dadosCliente));
             preencherFormularioCliente();
         } else if (mensagem) {
@@ -196,17 +200,66 @@ function preencherFormularioCliente() {
 
     const campoId = document.getElementById("id");
     const campoNome = document.getElementById("nome");
-    const campoEmail = document.getElementById("email");  
+    const campoEmail = document.getElementById("email");
     const campoEndereco = document.getElementById("endereco");
 
     if (campoId && cliente.id !== undefined) campoId.value = cliente.id;
     if (campoNome) campoNome.value = cliente.nome || "";
     if (campoEmail) campoEmail.value = cliente.email || "";
-    if (campoSenha) campoEmail.value = cliente.senha || "";
     if (campoEndereco) campoEndereco.value = cliente.endereco || "";
+
+    // Caso a página de perfil use spans/elementos de texto com esses IDs:
+    const perfilNome = document.getElementById("perfil-nome");
+    const perfilEmail = document.getElementById("perfil-email");
+    const perfilEndereco = document.getElementById("perfil-endereco");
+
+    if (perfilNome) perfilNome.textContent = cliente.nome || "";
+    if (perfilEmail) perfilEmail.textContent = cliente.email || "";
+    if (perfilEndereco) perfilEndereco.textContent = cliente.endereco || "";
+}
+
+async function excluirCliente() {
+    const mensagem = document.getElementById("mensagem");
+    if (mensagem) mensagem.innerHTML = "";
+
+    try {
+        const resposta = await fetch(
+            "http://localhost/Underground-Ring/controladores/rota.php?acao=excluirCliente",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const textoResposta = await resposta.text();
+        const dados = JSON.parse(textoResposta);
+
+        if (resposta.ok && dados.sucesso) {
+            localStorage.removeItem("dadosCliente");
+
+            if (typeof Swal !== "undefined") {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Conta excluída!",
+                    text: dados.mensagem
+                });
+            }
+
+            window.location.href = dados.redirecionar || "/Underground-Ring/index.html";
+        } else if (mensagem) {
+            mensagem.innerHTML = dados.mensagem || "Não foi possível excluir o cliente.";
+            mensagem.style.color = "red";
+        }
+    } catch (erro) {
+        if (mensagem) {
+            mensagem.innerHTML = erro.message || "Erro de comunicação com o servidor.";
+            mensagem.style.color = "red";
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Se já houver algo no localStorage ao abrir a tela do formulário, preenche na hora
     preencherFormularioCliente();
 });

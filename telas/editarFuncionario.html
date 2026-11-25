@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Funcionário</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <form id="formFuncionario">
@@ -22,12 +23,13 @@
     </form>
 
     <span id="mensagem"></span>
-    <script src="[https://cdn.jsdelivr.net/npm/sweetalert2@11](https://cdn.jsdelivr.net/npm/sweetalert2@11)"></script>
+    <br><br>
+    <a href="perfilFuncionarios.html">Voltar ao Perfil</a>
 
-<script src="../js/funcionarios.js"></script>
-<script>
-    // Busca os dados atualizados do banco via rota.php?acao=buscarPeloId ao abrir a tela
-    carregarDadosFuncionario();
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/funcionarios.js"></script>
+    <script>
+        carregarDadosFuncionario();
+    </script>
 </body>
 </html>

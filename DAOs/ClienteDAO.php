@@ -28,8 +28,7 @@
                 $stmt->execute();
                 $clienteBase = $stmt->fetch(PDO::FETCH_OBJ);
                 if($clienteBase){
-                    //converter esse objeto para o modelo
-                    $clienteModelo = new cliente();
+                    $clienteModelo = new Cliente();
                     $clienteModelo->setId($clienteBase->id);
                     $clienteModelo->setEmail($clienteBase->email);
                     $clienteModelo->setSenha($clienteBase->senha);
@@ -43,6 +42,7 @@
                 throw $erro;
             }
         }
+
         public function buscarTodos($conn){
             try{
                 $sql = "SELECT * FROM clientes";
@@ -54,9 +54,8 @@
                     $clienteModelo = new Cliente();
                     $clienteModelo->setId($cliente->id);
                     $clienteModelo->setNome($cliente->nome);
-                    $clienteModelo->setEmail($cliente->foto_url);
-                    $clienteModelo->setSenha($cliente->quantidade);
-                    $clienteModelo->setEndereco($cliente->preco);
+                    $clienteModelo->setEmail($cliente->email);
+                    $clienteModelo->setEndereco($cliente->endereco);
                     array_push($clientesModelo,$clienteModelo);
                 }
                 return $clientesModelo;
@@ -66,32 +65,49 @@
                 throw $erro;
             }
         }
+
         public function buscarPeloId($cliente, $conn){
             $sql = "SELECT * FROM clientes WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1,$cliente->getId()); 
+            $stmt->bindValue(1,$cliente->getId(), PDO::PARAM_INT); 
             $stmt->execute();
-            $cliente = $stmt->fetchAll(PDO::FETCH_OBJ);
-            $clienteModelo = new cliente();
-            $clienteModelo->setId($cliente[0]->id);
-            $clienteModelo->setNome($cliente[0]->nome);
-            $clienteModelo->setEmail($cliente[0]->email);
-            $clienteModelo->setSenha($cliente[0]->senha);
-            $clienteModelo->setEndereco($cliente[0]->endereco);
-            return $clienteModelo;
+            $clienteBase = $stmt->fetch(PDO::FETCH_OBJ);
+            if ($clienteBase) {
+                $clienteModelo = new Cliente();
+                $clienteModelo->setId($clienteBase->id);
+                $clienteModelo->setNome($clienteBase->nome);
+                $clienteModelo->setEmail($clienteBase->email);
+                $clienteModelo->setSenha($clienteBase->senha);
+                $clienteModelo->setEndereco($clienteBase->endereco);
+                return $clienteModelo;
+            }
+            return null;
         }
+
         public function alterar($cliente, $conn){
             try{
-                $sql = "UPDATE clientes
-                        SET nome = ?, email = ?, endereco = ?, senha = ?
-                        WHERE id = ?";
-                
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(1, $cliente->getNome());
-                $stmt->bindValue(2, $cliente->getEmail());
-                $stmt->bindValue(3, $cliente->getEndereco());
-                $stmt->bindValue(4, $cliente->getSenha());
-                $stmt->bindValue(5, $cliente->getId(), PDO::PARAM_INT);
+                $senhaDigitada = $cliente->getSenha();
+
+                if (!empty($senhaDigitada)) {
+                    $sql = "UPDATE clientes
+                            SET nome = ?, email = ?, endereco = ?, senha = ?
+                            WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(1, $cliente->getNome());
+                    $stmt->bindValue(2, $cliente->getEmail());
+                    $stmt->bindValue(3, $cliente->getEndereco());
+                    $stmt->bindValue(4, password_hash($senhaDigitada, PASSWORD_DEFAULT));
+                    $stmt->bindValue(5, $cliente->getId(), PDO::PARAM_INT);
+                } else {
+                    $sql = "UPDATE clientes
+                            SET nome = ?, email = ?, endereco = ?
+                            WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindValue(1, $cliente->getNome());
+                    $stmt->bindValue(2, $cliente->getEmail());
+                    $stmt->bindValue(3, $cliente->getEndereco());
+                    $stmt->bindValue(4, $cliente->getId(), PDO::PARAM_INT);
+                }
                 $stmt->execute();
             }catch(PDOException $erro){
                 throw $erro;
@@ -99,13 +115,12 @@
                 throw $erro;
             }
         }
+
         public function excluir($cliente, $conn){
             $sql = "DELETE FROM clientes WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1,$cliente->getId()); 
+            $stmt->bindValue(1,$cliente->getId(), PDO::PARAM_INT); 
             $stmt->execute();
         }
-
     }
-
 ?>

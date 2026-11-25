@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Funcionário</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Perfil do Funcionário</h1>
+    </header>
+
+    <main>
+        <section id="dados-perfil">
+            <h2>Meus Dados</h2>
+            <p><strong>Nome:</strong> <span id="perfil-nome">Carregando...</span></p>
+            <p><strong>E-mail:</strong> <span id="perfil-email">Carregando...</span></p>
+        </section>
+
+        <hr>
+
+        <section id="acoes-perfil">
+            <h2>Gerenciar Conta</h2>
+            <button type="button" onclick="window.location.href='editarFuncionario.html'">
+                Editar Perfil
+            </button>
+            <button type="button" onclick="confirmarExclusaoFuncionario()">
+                Excluir Conta
+            </button>
+        </section>
+
+        <br>
+        <span id="mensagem"></span>
+        <br><br>
+        <a href="homeF.php">Voltar para Home</a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/funcionarios.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarPerfilFuncionario();
+        });
+    </script>
+</body>
+</html>

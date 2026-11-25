@@ -8,8 +8,8 @@
                 $sql = "INSERT INTO funcionarios(nome,email,senha) VALUES 
                     (?,?,?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bindValue(1,$funcionario->getEmail());
-                $stmt->bindValue(2,$funcionario->getNome());
+                $stmt->bindValue(1,$funcionario->getNome());
+                $stmt->bindValue(2,$funcionario->getEmail());
                 $stmt->bindValue(3,password_hash($funcionario->getSenha(),PASSWORD_DEFAULT));
                 $stmt->execute();
             }catch(PDOException $erro){
@@ -26,8 +26,7 @@
             $stmt->execute();
             $funcionarioBase = $stmt->fetch(PDO::FETCH_OBJ);
             if($funcionarioBase){
-                //converter esse objeto para o modelo
-                $funcionarioModelo = new funcionario();
+                $funcionarioModelo = new Funcionario();
                 $funcionarioModelo->setId($funcionarioBase->id);
                 $funcionarioModelo->setEmail($funcionarioBase->email);
                 $funcionarioModelo->setSenha($funcionarioBase->senha);
@@ -36,6 +35,7 @@
                 return null;
             }            
         }
+
         public function buscarTodos($conn){
             try{
                 $sql = "SELECT * FROM funcionarios";
@@ -44,12 +44,10 @@
                 $funcionarios = $stmt->fetchAll(PDO::FETCH_OBJ);
                 $funcionariosModelo = [];
                 foreach($funcionarios as $funcionario){
-                    $funcionarioModelo = new funcionario();
+                    $funcionarioModelo = new Funcionario();
                     $funcionarioModelo->setId($funcionario->id);
                     $funcionarioModelo->setNome($funcionario->nome);
-                    $funcionarioModelo->setEmail($funcionario->foto_url);
-                    $funcionarioModelo->setSenha($funcionario->quantidade);
-                    $funcionarioModelo->setEndereco($funcionario->preco);
+                    $funcionarioModelo->setEmail($funcionario->email);
                     array_push($funcionariosModelo,$funcionarioModelo);
                 }
                 return $funcionariosModelo;
@@ -59,20 +57,25 @@
                 throw $erro;
             }
         }
+
         public function buscarPeloId($funcionario, $conn){
             $sql = "SELECT * FROM funcionarios WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1,$funcionario->getId()); 
+            $stmt->bindValue(1,$funcionario->getId(), PDO::PARAM_INT); 
             $stmt->execute();
-            $funcionario = $stmt->fetchAll(PDO::FETCH_OBJ);
-            $funcionarioModelo = new funcionario();
-            $funcionarioModelo->setId($funcionario[0]->id);
-            $funcionarioModelo->setNome($funcionario[0]->nome);
-            $funcionarioModelo->setEmail($funcionario[0]->email);
-            $funcionarioModelo->setSenha($funcionario[0]->senha);
-            return $funcionarioModelo;
+            $funcionarioBase = $stmt->fetch(PDO::FETCH_OBJ);
+            if ($funcionarioBase) {
+                $funcionarioModelo = new Funcionario();
+                $funcionarioModelo->setId($funcionarioBase->id);
+                $funcionarioModelo->setNome($funcionarioBase->nome);
+                $funcionarioModelo->setEmail($funcionarioBase->email);
+                $funcionarioModelo->setSenha($funcionarioBase->senha);
+                return $funcionarioModelo;
+            }
+            return null;
         }
-       public function alterar($funcionario, $conn){
+
+        public function alterar($funcionario, $conn){
             try {
                 $senhaDigitada = $funcionario->getSenha();
 
@@ -102,12 +105,12 @@
                 throw $erro;
             }
         }
+
         public function excluir($funcionario, $conn){
             $sql = "DELETE FROM funcionarios WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue(1,$funcionario->getId()); 
+            $stmt->bindValue(1,$funcionario->getId(), PDO::PARAM_INT); 
             $stmt->execute();
         }
     }
-
 ?>

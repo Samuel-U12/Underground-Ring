@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <form id="formCliente" method="post">
@@ -15,8 +16,8 @@
         <label for="email">E-mail:</label>
         <input type="text" name="email" id="email">
 
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha">
+        <label for="senha">Nova senha (deixe em branco para manter a atual):</label>
+        <input type="password" name="senha" id="senha">
 
         <label for="endereco">Endereço:</label>
         <input type="text" name="endereco" id="endereco">
@@ -25,12 +26,13 @@
     </form>
 
     <span id="mensagem"></span>
-    <script src="[https://cdn.jsdelivr.net/npm/sweetalert2@11](https://cdn.jsdelivr.net/npm/sweetalert2@11)"></script>
+    <br><br>
+    <a href="perfilCliente.html">Voltar ao Perfil</a>
 
-<script src="../js/cliente.js"></script>
-<script>
-    // Busca os dados atualizados do banco via rota.php?acao=buscarPeloId ao abrir a tela
-    carregarDadosCliente();
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/cliente.js"></script>
+    <script>
+        carregarDadosCliente();
+    </script>
 </body>
 </html>

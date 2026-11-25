@@ -14,8 +14,6 @@ switch ($acao) {
         $produtoDTO->nome = $_POST['nome'] ?? '';
         $produtoDTO->quantidade = $_POST['quantidade'] ?? 0;
         $produtoDTO->preco = $_POST['preco'] ?? 0.0;
-
-        // Passa o arquivo $_FILES['foto'] inteiro para o DTO
         $produtoDTO->foto = $_FILES['foto'] ?? null;
 
         $produtoControlador = new produtoControlador();
@@ -59,7 +57,7 @@ switch ($acao) {
         $id = $_GET['id'];
         try {
             $produtoControlador = new produtoControlador();
-            $produtoControlador = $produtoControlador->buscarPeloId($id);
+            $produtoControlador->buscarPeloId($id);
             header('Location:../telas/formAlterarProduto.php');
         } catch (PDOException $erro) {
             echo $erro->getMessage();
@@ -101,13 +99,7 @@ switch ($acao) {
                 'sucesso' => true,
                 'mensagem' => 'Cliente cadastrado com sucesso'
             ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -120,8 +112,8 @@ switch ($acao) {
         $dados = json_decode(file_get_contents("php://input"));
 
         $clienteDTO = new ClienteDTO();
-        $clienteDTO->email = $dados->email;
-        $clienteDTO->senha = $dados->senha;
+        $clienteDTO->email = $dados->email ?? '';
+        $clienteDTO->senha = $dados->senha ?? '';
 
         $clienteControlador = new ClienteControlador();
 
@@ -135,13 +127,7 @@ switch ($acao) {
                 'mensagem' => 'Cliente fez login com sucesso',
                 'redirecionar' => '/Underground-Ring/telas/homeC.php'
             ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -149,34 +135,7 @@ switch ($acao) {
             ]);
         }
         break;
-    case 'excluirCliente':
-        session_start();
-        $cliente = $_SESSION['cliente'] ?? null;
 
-        $clienteControlador = new ClienteControlador();
-
-        try {
-            $clienteControlador->excluirCliente($cliente);
-            http_response_code(201);
-            echo json_encode([
-                'sucesso' => true,
-                'mensagem' => 'Cliente excluido com sucesso',
-                'redirecionar' => '/Underground-Ring/index.html'
-            ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        }
-        break;
     case 'buscarPeloIdCliente':
         session_start();
         $cliente = $_SESSION['cliente'] ?? null;
@@ -192,7 +151,6 @@ switch ($acao) {
 
         $clienteControlador = new ClienteControlador();
         try {
-            // Garanta que ClienteControlador::buscarPeloId() e ClienteDAO::buscarPeloId() existam e retornem os dados do cliente
             $clienteAlterar = $clienteControlador->buscarPeloIdCliente($cliente);
 
             http_response_code(200);
@@ -203,7 +161,6 @@ switch ($acao) {
                     'id' => $clienteAlterar->getId(),
                     'nome' => $clienteAlterar->getNome(),
                     'email' => $clienteAlterar->getEmail(),
-                    'senha' => $clienteAlterar->getSenha(),
                     'endereco' => $clienteAlterar->getEndereco()
                 ]
             ]);
@@ -215,6 +172,7 @@ switch ($acao) {
             ]);
         }
         break;
+
     case 'alterarCliente':
         $dados = json_decode(file_get_contents("php://input"));
 
@@ -229,19 +187,48 @@ switch ($acao) {
 
         try {
             $clienteControlador->alterarCliente($clienteDTO);
-            http_response_code(201);
+            http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
                 'mensagem' => 'Cliente alterado com sucesso',
-                'redirecionar' => '/Underground-Ring/telas/homeC.php'
+                'redirecionar' => '/Underground-Ring/telas/perfilCliente.html'
             ]);
-        } catch (PDOException $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
                 'mensagem' => $erro->getMessage()
             ]);
-        } catch (Exception $erro) {
+        }
+        break;
+
+    case 'excluirCliente':
+        session_start();
+        $cliente = $_SESSION['cliente'] ?? null;
+
+        if (!$cliente) {
+            http_response_code(401);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => 'Sessão do cliente não encontrada.'
+            ]);
+            break;
+        }
+
+        $clienteControlador = new ClienteControlador();
+
+        try {
+            $clienteControlador->excluirCliente($cliente);
+            session_unset();
+            session_destroy();
+
+            http_response_code(200);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Cliente excluído com sucesso',
+                'redirecionar' => '/Underground-Ring/index.html'
+            ]);
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -261,19 +248,13 @@ switch ($acao) {
         $funcionarioControlador = new FuncionarioControlador();
 
         try {
-            $funcionario = $funcionarioControlador->salvarFuncionario($funcionarioDTO);
+            $funcionarioControlador->salvarFuncionario($funcionarioDTO);
             http_response_code(201);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Funcionario cadastrado com sucesso'
+                'mensagem' => 'Funcionário cadastrado com sucesso'
             ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -301,13 +282,7 @@ switch ($acao) {
                 'mensagem' => 'Autenticado com sucesso',
                 'redirecionar' => '/Underground-Ring/telas/homeF.php'
             ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -315,6 +290,7 @@ switch ($acao) {
             ]);
         }
         break;
+
     case 'buscarPeloIdFuncionario':
         session_start();
         $funcionario = $_SESSION['funcionario'] ?? null;
@@ -323,7 +299,7 @@ switch ($acao) {
             http_response_code(401);
             echo json_encode([
                 'sucesso' => false,
-                'mensagem' => 'Sessão do funcionario não encontrada.'
+                'mensagem' => 'Sessão do funcionário não encontrada.'
             ]);
             break;
         }
@@ -335,12 +311,11 @@ switch ($acao) {
             http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Dados do funcionario carregados com sucesso.',
+                'mensagem' => 'Dados do funcionário carregados com sucesso.',
                 'dadosFuncionario' => [
                     'id' => $funcionarioAlterar->getId(),
                     'nome' => $funcionarioAlterar->getNome(),
-                    'email' => $funcionarioAlterar->getEmail(),
-                    'senha' => $funcionarioAlterar->getSenha()
+                    'email' => $funcionarioAlterar->getEmail()
                 ]
             ]);
         } catch (PDOException | Exception $erro) {
@@ -351,10 +326,11 @@ switch ($acao) {
             ]);
         }
         break;
+
     case 'alterarFuncionario':
         $dados = json_decode(file_get_contents("php://input"));
 
-        $funcionarioDTO = new ClienteDTO();
+        $funcionarioDTO = new FuncionarioDTO();
         $funcionarioDTO->id = $dados->id ?? null;
         $funcionarioDTO->nome = $dados->nome ?? '';
         $funcionarioDTO->email = $dados->email ?? '';
@@ -364,19 +340,13 @@ switch ($acao) {
 
         try {
             $funcionarioControlador->alterarFuncionario($funcionarioDTO);
-            http_response_code(201);
+            http_response_code(200);
             echo json_encode([
                 'sucesso' => true,
-                'mensagem' => 'Funcionario alterado com sucesso',
-                'redirecionar' => '/Underground-Ring/telas/homeF.php'
+                'mensagem' => 'Funcionário alterado com sucesso',
+                'redirecionar' => '/Underground-Ring/telas/perfilFuncionarios.html'
             ]);
-        } catch (PDOException $erro) {
-            http_response_code(400);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => $erro->getMessage()
-            ]);
-        } catch (Exception $erro) {
+        } catch (PDOException | Exception $erro) {
             http_response_code(400);
             echo json_encode([
                 'sucesso' => false,
@@ -384,29 +354,8 @@ switch ($acao) {
             ]);
         }
         break;
-    case 'excluirCliente':
-        session_start();
-        $cliente = $_SESSION['cliente'] ?? null;
 
-        if (!$cliente) {
-            http_response_code(401);
-            echo json_encode([
-                'sucesso' => false,
-                'mensagem' => 'Sessão do cliente não encontrada.'
-            ]);
-            break;
-        }
-
-        $clienteControlador = new FuncionarioControlador();
-
-        try {
-            $clienteControlador->excluirCliente($cliente);
-            header('Location: ../index.html');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        break;
-        case 'excluirFuncionario':
+    case 'excluirFuncionario':
         session_start();
         $funcionario = $_SESSION['funcionario'] ?? null;
 
@@ -414,7 +363,7 @@ switch ($acao) {
             http_response_code(401);
             echo json_encode([
                 'sucesso' => false,
-                'mensagem' => 'Sessão do cliente não encontrada.'
+                'mensagem' => 'Sessão do funcionário não encontrada.'
             ]);
             break;
         }
@@ -423,11 +372,24 @@ switch ($acao) {
 
         try {
             $funcionarioControlador->excluirFuncionario($funcionario);
-            header('Location: ../index.html');
-        } catch (\Throwable $th) {
-            //throw $th;
+            session_unset();
+            session_destroy();
+
+            http_response_code(200);
+            echo json_encode([
+                'sucesso' => true,
+                'mensagem' => 'Funcionário excluído com sucesso',
+                'redirecionar' => '/Underground-Ring/index.html'
+            ]);
+        } catch (PDOException | Exception $erro) {
+            http_response_code(400);
+            echo json_encode([
+                'sucesso' => false,
+                'mensagem' => $erro->getMessage()
+            ]);
         }
         break;
+
     case 'verTodosClientes':
         break;
-        }
+}
